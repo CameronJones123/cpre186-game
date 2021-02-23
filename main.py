@@ -3,7 +3,8 @@ import pygame
 pygame.init()
 
 # Set up the drawing window
-screen = pygame.display.set_mode([500, 500])
+#screen = pygame.display.set_mode([500, 500])
+DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 # Run until the user asks to quit
 running = True
