@@ -20,7 +20,7 @@ screen = pygame.display.set_mode([500, 500])
 DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 # Run until the user asks to quit
-player = Player()
+player = Player.player()
 running = True
 while running:
 
@@ -35,7 +35,7 @@ while running:
 
     # Fill the background with white
     screen.fill((255, 255, 255))
-    screen.blit(player, player.rect)
+    screen.blit(player.surf, player.rect)
     # Flip the display
     pygame.display.flip()
 
