@@ -15,6 +15,7 @@ from pygame.locals import (
 
 # Set up the drawing window
 screen = pygame.display.set_mode([500, 500])
+
 DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 # Run until the user asks to quit
@@ -32,7 +33,7 @@ while running:
 
     # Fill the background with white
     screen.fill((255, 255, 255))
-
+    
     # Flip the display
     pygame.display.flip()
 
