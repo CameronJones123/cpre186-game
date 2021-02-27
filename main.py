@@ -20,7 +20,11 @@ screen = pygame.display.set_mode([500, 500])
 DISPLAYSURF = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
 # Run until the user asks to quit
+all_sprites = pygame.sprite.Group()
 player = Player.player()
+all_sprites.add(player)
+#initializes the clock
+clock = pygame.time.Clock()
 running = True
 while running:
 
@@ -33,9 +37,13 @@ while running:
             if event.key == K_ESCAPE:
                 running = False
 
+    pressed_keys = pygame.key.get_pressed()
+    player.update(pressed_keys)
     # Fill the background with white
     screen.fill((255, 255, 255))
-    screen.blit(player.surf, player.rect)
+    for entity in all_sprites:
+        screen.blit(entity.surf, entity.rect)
+    clock.tick(30)
     # Flip the display
     pygame.display.flip()
 
