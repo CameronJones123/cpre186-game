@@ -42,7 +42,7 @@ class block(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super(block, self).__init__()
         self.surf = pygame.Surface((50, 50))
-        self.surf.fill((0, 0, 0))
+        self.surf.fill((0, 0, 0)) #changes the color of the boundary
         self.rect = self.surf.get_rect()
         self.rect.right = x
         self.rect.top = y
