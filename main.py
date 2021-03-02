@@ -21,7 +21,7 @@ map1.load(blocks,all_sprites)
 clock = pygame.time.Clock()
 running = True
 while running:
-
+    #player.update(pressed_keys)
     # Did the user click the window close button?
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -30,9 +30,10 @@ while running:
             # Was it the Escape key? If so, stop the loop.
             if event.key == K_ESCAPE:
                 running = False
+        pressed_keys = pygame.key.get_pressed()
+        player.update(pressed_keys)
 
-    pressed_keys = pygame.key.get_pressed()
-    player.update(pressed_keys)
+
     # Fill the background with white
     screen.fill((255, 255, 255))
     for entity in all_sprites:
