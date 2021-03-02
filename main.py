@@ -3,17 +3,8 @@ import pygame
 import Player
 import map
 pygame.init()
-from pygame.locals import (
-    RLEACCEL,
-    K_UP,
-    K_DOWN,
-    K_LEFT,
-    K_RIGHT,
-    K_ESCAPE,
-    K_SPACE,
-    KEYDOWN,
-    QUIT,
-)
+from pygame.locals *
+
 class block(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super(block, self).__init__()
