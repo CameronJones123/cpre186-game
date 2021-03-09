@@ -3,7 +3,7 @@
 #Members Names: Isaac Vrba, Cameron Jones, Dan.
 
 
-import pygame as pg
+import pygame as pg #changes pygame to pg so we don't have to type 'pygames' out each time
 import sys
 from os import path
 from settings import *

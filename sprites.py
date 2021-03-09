@@ -49,13 +49,13 @@ class Wall(pg.sprite.Sprite):   #traditional, non-passable wall
 
 class PassableWall(pg.sprite.Sprite):
     def __init__(self, game, x, y):
-        self.groups = game.all_sprites, game.walls
-        pg.sprite.Sprite.__init__(self, self.groups)
+        self.groups = game.all_sprites, game.walls #groups what passable wall are included in
+        pg.sprite.Sprite.__init__(self, self.groups)  
         self.game = game
-        self.image = pg.Surface((TILESIZE, TILESIZE))
-        self.image.fill(SKYBLUE)
-        self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.x = x * TILESIZE
-        self.rect.y = y * TILESIZE
+        self.image = pg.Surface((TILESIZE, TILESIZE)) #making it our TILESIZE
+        self.image.fill(SKYBLUE)  #changes the color of the block
+        self.rect = self.image.get_rect() #creates a rectangle
+        self.x = x #x position
+        self.y = y #y position
+        self.rect.x = x * TILESIZE  #set's its x position 
+        self.rect.y = y * TILESIZE  #set's its y position
