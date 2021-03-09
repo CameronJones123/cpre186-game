@@ -31,10 +31,12 @@ class Game:
         self.walls = pg.sprite.Group()
         for row, tiles in enumerate(self.map_data):
             for col, tile in enumerate(tiles):
-                if tile == '1':
+                if tile == '1': #loads a traditional, non-passable wall
                     Wall(self, col, row)
-                if tile == 'P':
+                if tile == 'P': #loads the player in the tile with a 'P'
                     self.player = Player(self, col, row)
+                if tile == '2': #loads spaces with 2 with a passable wall
+                    PassableWall(self, col, row)
 
     def run(self):
         # game loop - set self.playing = False to end the game

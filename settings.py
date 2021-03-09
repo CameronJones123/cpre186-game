@@ -6,6 +6,8 @@ LIGHTGREY = (100, 100, 100)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
+SKYBLUE = (135, 206, 235)
+
 
 # game settings
 WIDTH = 1024   #a large enough number that occupies the screen and also divisible by 32 so we have full tiles
