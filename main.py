@@ -1,7 +1,8 @@
-# KidsCanCode - Game Development with Pygame video series
-# Tile-based game - Part 2
-# Collisions and Tilemaps
-# Video link: https://youtu.be/ajR4BZBKTr4
+#Group 1's city builder main program.
+#Last updated 03/09/21
+#Members Names: Isaac Vrba, Cameron Jones, Dan.
+
+
 import pygame as pg
 import sys
 from os import path
@@ -11,7 +12,7 @@ from sprites import *
 class Game:
     def __init__(self):
         pg.init()
-        self.screen = pg.display.set_mode((WIDTH, HEIGHT))
+        self.screen = pg.display.set_mode((WIDTH, HEIGHT)) #creates the size of the screen
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500, 100)
@@ -44,6 +45,7 @@ class Game:
             self.update()
             self.draw()
 
+    #defining what happens when the program is closed/quits
     def quit(self):
         pg.quit()
         sys.exit()

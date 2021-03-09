@@ -1,4 +1,4 @@
-# define some colors (R, G, B)
+# define commonly used colors for easy reference (R,G,B)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 DARKGREY = (40, 40, 40)
@@ -8,12 +8,12 @@ RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 
 # game settings
-WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
-HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
-FPS = 60
+WIDTH = 1024   #a large enough number that occupies the screen and also divisible by 32 so we have full tiles
+HEIGHT = 768  #same logic as the width, but for height
+FPS = 144
 TITLE = "Tilemap Demo"
 BGCOLOR = DARKGREY
 
-TILESIZE = 32
+TILESIZE = 32  #size of the tile that we chose
 GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
