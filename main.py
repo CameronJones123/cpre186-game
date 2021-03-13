@@ -8,6 +8,7 @@ import sys
 from os import path
 from settings import *
 from sprites import *
+import random
 
 class Game:
     def __init__(self):
@@ -34,9 +35,11 @@ class Game:
                 if tile == '1': #loads a traditional, non-passable wall
                     Wall(self, col, row)
                 if tile == 'P': #loads the player in the tile with a 'P'
-                    self.player = Player(self, col, row)
+                    self.player = Player(self,col, row)
                 if tile == '2': #loads spaces with 2 with a passable wall
                     PassableWall(self, col, row)
+                if tile == '3':
+                    self.rabbit = rabbit(self, col,row)
 
     def run(self):
         # game loop - set self.playing = False to end the game
@@ -84,6 +87,11 @@ class Game:
                     self.player.move(dy=-1)
                 if event.key == pg.K_DOWN:
                     self.player.move(dy=1)
+        Movex = random.randint(-1,1)
+        print(Movex)
+        Movey = random.randint(-1,1)
+        self.rabbit.move(dx=Movex)
+        self.rabbit.move(dy=Movey)
 
     def show_start_screen(self):
         pass
