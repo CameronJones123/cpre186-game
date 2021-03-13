@@ -87,8 +87,9 @@ class Game:
                     self.player.move(dy=-1)
                 if event.key == pg.K_DOWN:
                     self.player.move(dy=1)
+                if event.key == pg.K_SPACE:
+                    self.player.placeWall()
         Movex = random.randint(-1,1)
-        print(Movex)
         Movey = random.randint(-1,1)
         self.rabbit.move(dx=Movex)
         self.rabbit.move(dy=Movey)

@@ -4,6 +4,7 @@ from settings import *
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
+        self.group1 = game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
@@ -33,6 +34,14 @@ class Player(pg.sprite.Sprite):
     def update(self):
         self.rect.x = self.x * TILESIZE
         self.rect.y = self.y * TILESIZE
+
+    def placeWall(self):
+        print("place wall")
+        new_wall = Wall(self.game,self.x,self.y)
+        self.groups.add(new_wall)
+        self.group1.add(new_wall)
+
+
 
 class Wall(pg.sprite.Sprite):   #traditional, non-passable wall
     def __init__(self, game, x, y):
