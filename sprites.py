@@ -73,6 +73,8 @@ class rabbit(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
+        self.last = pg.time.get_ticks()
+        self.coolDown = 300
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
         self.image.fill(YELLOW)
@@ -81,9 +83,12 @@ class rabbit(pg.sprite.Sprite):
         self.y = y
 
     def move(self, dx=0, dy=0):
+        now = pg.time.get_ticks()
+        print(now)
         if not self.collide_with_walls(dx, dy):
-            self.x += dx
-            self.y += dy
+            if(now % 100 == 0):
+                self.x += dx
+                self.y += dy
 
     def collide_with_walls(self, dx=0, dy=0):
         for wall in self.game.walls:

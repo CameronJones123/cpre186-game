@@ -91,6 +91,7 @@ class Game:
                     self.player.placeWall()
         Movex = random.randint(-1,1)
         Movey = random.randint(-1,1)
+
         self.rabbit.move(dx=Movex)
         self.rabbit.move(dy=Movey)
 
