@@ -102,8 +102,8 @@ class Game:
         Movex = random.randint(-1,1)
         Movey = random.randint(-1,1)
 
-        self.rabbit.move(dx=Movex)
-        self.rabbit.move(dy=Movey)
+        self.rabbit.move(dx=Movex, px=self.player.x, py=self.player.y)
+        self.rabbit.move(dy=Movey, px=self.player.x, py=self.player.y)
 
     def show_start_screen(self):
         pass
