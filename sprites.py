@@ -82,7 +82,7 @@ class Stone(pg.sprite.Sprite):  #How stones in the game will be created
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
-class Food(pg.sprite.Sprite):
+class Food(pg.sprite.Sprite):  #Creating Food for the game
     def __init__(self, game, x, y):
         super(Food, self).__init__()                        #gives access to methods and properties
         self.groups = game.all_sprites                      #groups Food with all_sprites
@@ -95,7 +95,7 @@ class Food(pg.sprite.Sprite):
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
-class Gold(pg.sprite.Sprite):
+class Gold(pg.sprite.Sprite):   #Creating Gold Ore for the game
     def __init__(self, game, x, y):
         super(Gold, self).__init__()                        #gives access to methods and properties
         self.groups = game.all_sprites                      #groups gold with all_sprites
