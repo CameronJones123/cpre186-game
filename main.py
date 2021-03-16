@@ -40,8 +40,10 @@ class Game:
                     PassableWall(self, col, row)
                 if tile == '3': #loads a rabbit
                     self.rabbit = rabbit(self, col,row)
-                if tile == 'S': #loads a stone
+                if tile == 'S': #loads stone
                     Stone(self, col, row)
+                if tile == 'F': #loads food
+                    Food(self, col, row)
 
     def run(self):
         # game loop - set self.playing = False to end the game
@@ -50,7 +52,7 @@ class Game:
             self.dt = self.clock.tick(FPS) / 1000
             self.events()
             self.update()
-            self.draw()
+            self.draw()                                        
 
     #defining what happens when the program is closed/quits
     def quit(self):
@@ -70,7 +72,7 @@ class Game:
     def draw(self):
         self.screen.fill(BGCOLOR)
         self.draw_grid()
-        self.all_sprites.draw(self.screen)
+        self.all_sprites.draw(self.screen)                           
         for entity in self.all_sprites:
             self.screen.blit(entity.image, entity.rect)
         pg.display.flip()
@@ -110,5 +112,5 @@ g = Game()
 g.show_start_screen()
 while True:
     g.new()
-    g.run()
+    g.run()                                                    
     g.show_go_screen()
