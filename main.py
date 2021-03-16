@@ -38,9 +38,9 @@ class Game:
                     self.player = Player(self,col, row)
                 if tile == '2': #loads spaces with 2 with a passable wall
                     PassableWall(self, col, row)
-                if tile == '3':
+                if tile == '3': #loads a rabbit
                     self.rabbit = rabbit(self, col,row)
-                if tile == 'S':
+                if tile == 'S': #loads a stone
                     Stone(self, col, row)
 
     def run(self):

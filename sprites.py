@@ -77,6 +77,10 @@ class Stone(pg.sprite.Sprite):
         self.image = pg.image.load("stone.png").convert()
         self.image.set_colorkey((255, 255, 255))
         self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
 
 class rabbit(pg.sprite.Sprite):
     def __init__(self, game, x, y):
