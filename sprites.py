@@ -69,6 +69,15 @@ class PassableWall(pg.sprite.Sprite):
         self.rect.x = x * TILESIZE  #set's its x position
         self.rect.y = y * TILESIZE  #set's its y position
 
+class Stone(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        super(Stone, self).__init__()
+        self.groups = game.all_sprites
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.image = pg.image.load("stone.png").convert()
+        self.image.set_colorkey((255, 255, 255))
+        self.rect = self.image.get_rect()
+
 class rabbit(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites

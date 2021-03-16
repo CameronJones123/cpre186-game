@@ -40,6 +40,8 @@ class Game:
                     PassableWall(self, col, row)
                 if tile == '3':
                     self.rabbit = rabbit(self, col,row)
+                if tile == 'S':
+                    Stone(self, col, row)
 
     def run(self):
         # game loop - set self.playing = False to end the game
@@ -69,6 +71,8 @@ class Game:
         self.screen.fill(BGCOLOR)
         self.draw_grid()
         self.all_sprites.draw(self.screen)
+        for entity in self.all_sprites:
+            self.screen.blit(entity.image, entity.rect)
         pg.display.flip()
 
     def events(self):
