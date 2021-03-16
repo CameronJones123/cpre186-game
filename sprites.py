@@ -108,13 +108,26 @@ class rabbit(pg.sprite.Sprite):
         self.x = x
         self.y = y
 
-    def move(self, dx=0, dy=0):
+    def move(self, dx=0, dy=0, px=0, py=0):
         now = pg.time.get_ticks()
-        print(now)
         if not self.collide_with_walls(dx, dy):
-            if(now % 100 == 0):
+            if (now % 100 == 0):
                 self.x += dx
                 self.y += dy
+        if (now % 100 == 0):
+            print(px, self.x)
+            if (self.x - px < 0 and self.y == py):
+                if not self.collide_with_walls(-1, 0):
+                    self.x -= 1
+            if (px - self.x < 0 and self.y == py):
+                if not self.collide_with_walls(1, 0):
+                    self.x += 1
+            if (self.y - py < 0 and self.x == px):
+                if not self.collide_with_walls(0, -1):
+                    self.y -= 1
+            if (py - self.y < 0 and self.x == px):
+                if not self.collide_with_walls(0, 1):
+                    self.y += 1
 
     def collide_with_walls(self, dx=0, dy=0):
         for wall in self.game.walls:
