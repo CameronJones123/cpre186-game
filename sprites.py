@@ -75,10 +75,10 @@ class Stone(pg.sprite.Sprite):  #How stones in the game will be created
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.image = pg.image.load("stone.png").convert()   #loads in the stone.png file
-        #self.image.set_colorkey((255, 255, 255)) #don't need for this one, but the background color will be white
+        self.image.set_colorkey((255, 255, 255)) #don't need for this one, but the background color will be white
         self.rect = self.image.get_rect()   #saying that the image is the rectagle  
-        #self.x = x
-        #self.y = y
+        self.x = x
+        self.y = y
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
@@ -88,6 +88,32 @@ class Food(pg.sprite.Sprite):
         self.groups = game.all_sprites                      #groups Food with all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.image = pg.image.load("food.png").convert()    #loads in our food.png file
+        self.image.set_colorkey((255, 255, 255))            #sets the transparent's background color to white
+        self.rect = self.image.get_rect()                   #says the image is in the rectangle
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
+
+class Gold(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        super(Gold, self).__init__()                        #gives access to methods and properties
+        self.groups = game.all_sprites                      #groups gold with all_sprites
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.image = pg.image.load("gold_ore.png").convert()    #loads in our gold.png file
+        self.image.set_colorkey((255, 255, 255))            #sets the transparent's background color to white
+        self.rect = self.image.get_rect()                   #says the image is in the rectangle
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
+
+class Wood(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        super(Wood, self).__init__()                        #gives access to methods and properties
+        self.groups = game.all_sprites                      #groups wood with all_sprites
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.image = pg.image.load("wood.png").convert()    #loads in our wood.png file
         self.image.set_colorkey((255, 255, 255))            #sets the transparent's background color to white
         self.rect = self.image.get_rect()                   #says the image is in the rectangle
         self.x = x

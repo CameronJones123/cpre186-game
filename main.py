@@ -44,6 +44,10 @@ class Game:
                     Stone(self, col, row)
                 if tile == 'F': #loads food
                     Food(self, col, row)
+                if tile == 'G': #loads in gold
+                    Gold(self, col, row)
+                if tile == "W": #loads in wood
+                    Wood(self, col, row)
 
     def run(self):
         # game loop - set self.playing = False to end the game
