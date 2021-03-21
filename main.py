@@ -30,6 +30,7 @@ class Game:
         # initialize all variables and do all the setup for a new game
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
+        self.bullets = pg.sprite.Group()
         for row, tiles in enumerate(self.map_data):
             for col, tile in enumerate(tiles):
                 if tile == '1': #loads a traditional, non-passable wall
@@ -56,7 +57,7 @@ class Game:
             self.dt = self.clock.tick(FPS) / 1000
             self.events()
             self.update()
-            self.draw()                                        
+            self.draw()
 
     #defining what happens when the program is closed/quits
     def quit(self):
@@ -76,7 +77,7 @@ class Game:
     def draw(self):
         self.screen.fill(BGCOLOR)
         self.draw_grid()
-        self.all_sprites.draw(self.screen)                           
+        self.all_sprites.draw(self.screen)
         for entity in self.all_sprites:
             self.screen.blit(entity.image, entity.rect)
         pg.display.flip()
@@ -99,11 +100,16 @@ class Game:
                     self.player.move(dy=1)
                 if event.key == pg.K_SPACE:
                     self.player.placeWall()
+                if event.key == pg.K_f:
+                    self.player.shoot();
         Movex = random.randint(-1,1)
         Movey = random.randint(-1,1)
 
         self.rabbit.move(dx=Movex, px=self.player.x, py=self.player.y)
         self.rabbit.move(dy=Movey, px=self.player.x, py=self.player.y)
+
+        for bullet in self.bullets:
+            bullet.move(1)
 
     def show_start_screen(self):
         pass
@@ -116,5 +122,5 @@ g = Game()
 g.show_start_screen()
 while True:
     g.new()
-    g.run()                                                    
+    g.run()
     g.show_go_screen()
