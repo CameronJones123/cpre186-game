@@ -26,7 +26,7 @@ class Game:
             for line in f:
                 self.map_data.append(line)
 
-    def checkTile(self):
+    def itemSpawner(self):
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
         item_list = ['R', 'S', 'F']
@@ -37,19 +37,16 @@ class Game:
                     randNum = random.randint(0,100)
                     if randNum == 2:
                         if item_qty[1] < 10:
-                            print("stone")
                             Stone(self, col, row)
                             item_qty[1] = item_qty[1] + 1
                     elif randNum == 1:
                         if item_qty[2] < 5:
-                            print("food")
                             Food(self, col, row)
                             item_qty[2] = item_qty[2] + 1
-                    elif randNum == 0:
-                        if item_qty[0] < 3:
-                            print("rabbit")
-                            self.rabbit = rabbit(self, col, row)
-                            item_qty[0] = item_qty[0] + 1
+                    #elif randNum == 0:
+                        #if item_qty[0] < 3:
+                            #self.rabbit = rabbit(self, col, row)
+                            #item_qty[0] = item_qty[0] + 1
                 elif tile == '1':
                     Wall(self, col, row)
                 elif tile == 'P':
@@ -151,6 +148,6 @@ g = Game()
 g.show_start_screen()
 while True:
     g.new()
-    g.checkTile()
+    g.itemSpawner()
     g.run()
     g.show_go_screen()
