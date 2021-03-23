@@ -29,9 +29,9 @@ class Game:
     def itemSpawner(self):
         #self.all_sprites = pg.sprite
         #item_list is a list of possible items to add to the map
-        item_list = ['G', 'S', 'F']
+        item_list = ['G', 'F', 'S', 'W']
         #item_qty is a list containing the quantities of each item
-        item_qty = [0, 0, 0]
+        item_qty = [0, 0, 0, 0]
         for row, tiles in enumerate(self.map_data):
             for col, tile in enumerate(tiles):
                 #looks for open space
@@ -43,16 +43,21 @@ class Game:
                             item_qty[0] = item_qty[0] + 1
                     #food is placed if there are less than 5 on the map
                     elif randNum == 1:
-                        if item_qty[2] < 5:
+                        if item_qty[1] < 5:
                             Food(self, col, row)
                             #increases the quantity of food by 1
-                            item_qty[2] = item_qty[2] + 1
+                            item_qty[1] = item_qty[1] + 1
                     #stone is placed if there are less than 10 on the map
                     elif randNum == 2:
-                        if item_qty[1] < 10:
+                        if item_qty[2] < 10:
                             Stone(self, col, row)
                             #increases the quantity of stone by 1
-                            item_qty[1] = item_qty[1] + 1
+                            item_qty[2] = item_qty[2] + 1
+                    #wood is placed if there are less than 10 on the map
+                    elif randNum == 3:
+                        if item_qty[3] < 10:
+                            Wood(self, col, row)
+                            item_qty[3] = item_qty[3] + 1
 
     def new(self):
         # initialize all variables and do all the setup for a new game
