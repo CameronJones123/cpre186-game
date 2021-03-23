@@ -1,5 +1,5 @@
 #Group 1's city builder main program.
-#Last updated 03/23/21
+#Last updated 03/09/21
 #Members Names: Isaac Vrba, Cameron Jones, Dan.
 
 
@@ -19,21 +19,19 @@ class Game:
         pg.key.set_repeat(500, 100)
         self.load_data()
 
-    def load_data(self): #load map information and spawn set objects into the world
+    def load_data(self):
         game_folder = path.dirname(__file__)
         self.map_data = []
         with open(path.join(game_folder, 'map.txt'), 'rt') as f:
             for line in f:
                 self.map_data.append(line)
 
-<<<<<<< Updated upstream
     def itemSpawner(self):
-=======
-    def checkTile(self):    #Responsible for the random generation of resources in the game
->>>>>>> Stashed changes
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
+        #item_list is a list of possible items to add to the map
         item_list = ['R', 'S', 'F']
+        #item_qty is a list containing the quantities of each item
         item_qty = [0, 0, 0]
         for row, tiles in enumerate(self.map_data):
             for col, tile in enumerate(tiles):
