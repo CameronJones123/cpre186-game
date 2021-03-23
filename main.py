@@ -128,8 +128,10 @@ class Game:
                     self.player.move(dy=1)
                 if event.key == pg.K_SPACE:
                     self.player.placeWall()
-                if event.key == pg.K_f:
+                if event.key == pg.K_f and self.player.isShooting == False:
                     self.player.isShooting = True
+                elif event.key == pg.K_f and self.player.isShooting == True:
+                    self.player.isShooting = False
                 if event.key == pg.K_UP and self.player.isShooting == True:
                     self.player.shoot(0, -1)
                     self.player.isShooting = False

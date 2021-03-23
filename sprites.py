@@ -81,7 +81,7 @@ class bullet(pg.sprite.Sprite):
         print("fesf")
         now = pg.time.get_ticks()
         if not self.collide_with_walls(self.dirx, self.dirY):
-            if (now % 100 == 0):
+            if (now % 25 == 0):
                 self.x += self.dirx
                 self.y += self.dirY
         else:
