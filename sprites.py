@@ -75,11 +75,19 @@ class bullet(pg.sprite.Sprite):
             if wall.x == self.x + dx and wall.y == self.y + dy:
                 return True
         return False
+    def collide_with_rabbit(self, dx=0, dy=0):
+        for rabbit in self.game.rabbits:
+            if rabbit.x == self.x + dx and rabbit.y == self.y + dy:
+                rabbit.kill()
+                return True
+        return False
 
     def move(self):
         print(self.x)
         print("fesf")
         now = pg.time.get_ticks()
+        if self.collide_with_rabbit():
+            self.kill()
         if not self.collide_with_walls(self.dirx, self.dirY):
             if (now % 25 == 0):
                 self.x += self.dirx
@@ -174,7 +182,7 @@ class Wood(pg.sprite.Sprite):
 
 class rabbit(pg.sprite.Sprite):
     def __init__(self, game, x, y):
-        self.groups = game.all_sprites
+        self.groups = game.all_sprites, game.rabbits
         pg.sprite.Sprite.__init__(self, self.groups)
         self.last = pg.time.get_ticks()
         self.coolDown = 300
@@ -186,22 +194,27 @@ class rabbit(pg.sprite.Sprite):
         self.y = y
 
     def move(self, dx=0, dy=0, px=0, py=0):
+
         now = pg.time.get_ticks()
         if not self.collide_with_walls(dx, dy):
-            if (now % 100 == 0):
+            if (now % 200 == 0):
                 self.x += dx
                 self.y += dy
-        if (now % 100 == 0):
+        if (now % 75 == 0):
             if (self.x - px < 0 and self.y == py):
+                print("right")
                 if not self.collide_with_walls(-1, 0):
                     self.x -= 1
             if (px - self.x < 0 and self.y == py):
+                print("left")
                 if not self.collide_with_walls(1, 0):
                     self.x += 1
             if (self.y - py < 0 and self.x == px):
+                print("up")
                 if not self.collide_with_walls(0, -1):
                     self.y -= 1
             if (py - self.y < 0 and self.x == px):
+                print("down")
                 if not self.collide_with_walls(0, 1):
                     self.y += 1
 
