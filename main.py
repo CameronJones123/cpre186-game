@@ -26,6 +26,35 @@ class Game:
             for line in f:
                 self.map_data.append(line)
 
+    def checkTile(self):
+        self.all_sprites = pg.sprite.Group()
+        self.walls = pg.sprite.Group()
+        item_list = ['R', 'S', 'F']
+        item_qty = [0, 0, 0]
+        for row, tiles in enumerate(self.map_data):
+            for col, tile in enumerate(tiles):
+                if tile == '.':
+                    randNum = random.randint(0,100)
+                    if randNum == 2:
+                        if item_qty[1] < 10:
+                            print("stone")
+                            Stone(self, col, row)
+                            item_qty[1] = item_qty[1] + 1
+                    elif randNum == 1:
+                        if item_qty[2] < 5:
+                            print("food")
+                            Food(self, col, row)
+                            item_qty[2] = item_qty[2] + 1
+                    elif randNum == 0:
+                        if item_qty[0] < 3:
+                            print("rabbit")
+                            self.rabbit = rabbit(self, col, row)
+                            item_qty[0] = item_qty[0] + 1
+                elif tile == '1':
+                    Wall(self, col, row)
+                elif tile == 'P':
+                    self.player = Player(self, col, row)
+
     def new(self):
         # initialize all variables and do all the setup for a new game
         self.all_sprites = pg.sprite.Group()
@@ -39,7 +68,7 @@ class Game:
                     self.player = Player(self,col, row)
                 if tile == '2': #loads spaces with 2 with a passable wall
                     PassableWall(self, col, row)
-                if tile == '3': #loads a rabbit
+                if tile == 'R': #loads a rabbit
                     self.rabbit = rabbit(self, col,row)
                 if tile == 'S': #loads stone
                     Stone(self, col, row)
@@ -122,5 +151,6 @@ g = Game()
 g.show_start_screen()
 while True:
     g.new()
+    g.checkTile()
     g.run()
     g.show_go_screen()
