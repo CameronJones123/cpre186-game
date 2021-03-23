@@ -174,7 +174,6 @@ class Wood(pg.sprite.Sprite):
 
 class rabbit(pg.sprite.Sprite):
     def __init__(self, game, x, y):
-        super(rabbit, self).__init__()
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.last = pg.time.get_ticks()
