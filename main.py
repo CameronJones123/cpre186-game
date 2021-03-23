@@ -31,25 +31,25 @@ class Game:
         self.walls = pg.sprite.Group()
 
         #item_list is a list of possible items to add to the map
-        item_list = ['R', 'S', 'F']
+        item_list = ['S', 'F', 'G', 'W']
         #item_qty is a list containing the quantities of each item
-        item_qty = [0, 0, 0]
+        item_qty = [0, 0, 0, 0]
         for row, tiles in enumerate(self.map_data):
             for col, tile in enumerate(tiles):
                 if tile == '.':
                     randNum = random.randint(0,100)
-                    if randNum == 2:
-                        if item_qty[1] < 10:
-                            Stone(self, col, row)
-                            item_qty[1] = item_qty[1] + 1
-                    elif randNum == 1:
-                        if item_qty[2] < 5:
-                            Food(self, col, row)
-                            item_qty[2] = item_qty[2] + 1
-                    #elif randNum == 0:
-                        #if item_qty[0] < 3:
-                            #self.rabbit = rabbit(self, col, row)
-                            #item_qty[0] = item_qty[0] + 1
+                    if randNum == 0 and item_qty[0] < 10:
+                        Stone(self, col, row)
+                        item_qty[0] = item_qty[0] + 1
+                    elif randNum == 1 and item_qty[1] < 5:
+                        Food(self, col, row)
+                        item_qty[1] = item_qty[1] + 1
+                    elif randNum == 2 and item_qty[2] < 3:
+                        Gold(self, col, row)
+                        item_qty[2] = item_qty[2] + 1
+                    elif randNum == 3 and item_qty[3] < 10:
+                        Wood(self, col, row)
+                        item_qty[3] = item_qty[3] + 1
                 elif tile == '1':
                     Wall(self, col, row)
                 elif tile == 'P':
