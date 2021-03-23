@@ -116,18 +116,30 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.quit()
-                if event.key == pg.K_LEFT:
+                if event.key == pg.K_LEFT and self.player.isShooting == False:
                     self.player.move(dx=-1)
-                if event.key == pg.K_RIGHT:
+                if event.key == pg.K_RIGHT and self.player.isShooting == False:
                     self.player.move(dx=1)
-                if event.key == pg.K_UP:
+                if event.key == pg.K_UP and self.player.isShooting == False:
                     self.player.move(dy=-1)
-                if event.key == pg.K_DOWN:
+                if event.key == pg.K_DOWN and self.player.isShooting == False:
                     self.player.move(dy=1)
                 if event.key == pg.K_SPACE:
                     self.player.placeWall()
                 if event.key == pg.K_f:
-                    self.player.shoot();
+                    self.player.isShooting = True
+                if event.key == pg.K_UP and self.player.isShooting == True:
+                    self.player.shoot(0, -1)
+                    self.player.isShooting = False
+                if event.key == pg.K_DOWN and self.player.isShooting == True:
+                    self.player.shoot(0, 1)
+                    self.player.isShooting = False
+                if event.key == pg.K_RIGHT and self.player.isShooting == True:
+                    self.player.shoot(1, 0)
+                    self.player.isShooting = False
+                if event.key == pg.K_LEFT and self.player.isShooting == True:
+                    self.player.shoot(-1, 0)
+                    self.player.isShooting = False
         Movex = random.randint(-1,1)
         Movey = random.randint(-1,1)
 
@@ -135,7 +147,7 @@ class Game:
         self.rabbit.move(dy=Movey, px=self.player.x, py=self.player.y)
 
         for bullet in self.bullets:
-            bullet.move(1)
+            bullet.move()
 
     def show_start_screen(self):
         pass

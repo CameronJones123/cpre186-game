@@ -13,6 +13,7 @@ class Player(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
+        self.isShooting = False
 
     def move(self, dx=0, dy=0):
         if not self.collide_with_walls(dx, dy):
@@ -42,8 +43,10 @@ class Player(pg.sprite.Sprite):
         self.groups.add(new_wall)
         self.group1.add(new_wall)
 
-    def shoot(self):
+    def shoot(self,x,y):
         Bullet = bullet(self.game, self.x, self.y)
+        Bullet.dirx = x
+        Bullet.dirY = y
         Bullet.add(self.groups)
         Bullet.add(self.game.bullets)
 
@@ -60,6 +63,8 @@ class bullet(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
+        self.dirx = 0
+        self.dirY = 0
 
     def update(self):
         self.rect.x = self.x * TILESIZE
@@ -71,14 +76,14 @@ class bullet(pg.sprite.Sprite):
                 return True
         return False
 
-    def move(self, dx=0, dy=0):
+    def move(self):
         print(self.x)
         print("fesf")
         now = pg.time.get_ticks()
-        if not self.collide_with_walls(dx, dy):
+        if not self.collide_with_walls(self.dirx, self.dirY):
             if (now % 100 == 0):
-                self.x += dx
-                self.y += dy
+                self.x += self.dirx
+                self.y += self.dirY
         else:
             self.kill()
 
