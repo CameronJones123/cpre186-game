@@ -146,6 +146,8 @@ class Game:
                 if event.key == pg.K_LEFT and self.player.isShooting == True:
                     self.player.shoot(-1, 0)
                     self.player.isShooting = False
+                if event.key == pg.K_0:
+                    self.player.collect()
         Movex = random.randint(-1,1)
         Movey = random.randint(-1,1)
 

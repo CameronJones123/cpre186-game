@@ -32,6 +32,10 @@ class Player(pg.sprite.Sprite):
             if wall.x == self.x + dx and wall.y == self.y + dy:
                 return True
         return False
+    def collect(self):
+        for rabbit in self.game.rabbits:
+            if rabbit.x == self.x + 1 and rabbit.y == self.y or (rabbit.x == self.x - 1 and rabbit.y == self.y) or (rabbit.y == self.y + 1 and rabbit.x == self.x)or(rabbit.y == self.y - 1 and rabbit.x == self.x):
+                rabbit.kill()
 
     def update(self):
         self.rect.x = self.x * TILESIZE
@@ -78,7 +82,8 @@ class bullet(pg.sprite.Sprite):
     def collide_with_rabbit(self, dx=0, dy=0):
         for rabbit in self.game.rabbits:
             if rabbit.x == self.x + dx and rabbit.y == self.y + dy:
-                rabbit.kill()
+                rabbit.isDead = True
+                rabbit.image.fill(WHITE)
                 return True
         return False
 
@@ -192,31 +197,33 @@ class rabbit(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
+        self.isDead = True
 
     def move(self, dx=0, dy=0, px=0, py=0):
 
         now = pg.time.get_ticks()
-        if not self.collide_with_walls(dx, dy):
-            if (now % 200 == 0):
-                self.x += dx
-                self.y += dy
-        if (now % 75 == 0):
-            if (self.x - px < 0 and self.y == py):
-                print("right")
-                if not self.collide_with_walls(-1, 0):
-                    self.x -= 1
-            if (px - self.x < 0 and self.y == py):
-                print("left")
-                if not self.collide_with_walls(1, 0):
-                    self.x += 1
-            if (self.y - py < 0 and self.x == px):
-                print("up")
-                if not self.collide_with_walls(0, -1):
-                    self.y -= 1
-            if (py - self.y < 0 and self.x == px):
-                print("down")
-                if not self.collide_with_walls(0, 1):
-                    self.y += 1
+        if(self.isDead == False):
+            if not self.collide_with_walls(dx, dy):
+                if (now % 200 == 0):
+                    self.x += dx
+                    self.y += dy
+            if (now % 75 == 0):
+                if (self.x - px < 0 and self.y == py):
+                    print("right")
+                    if not self.collide_with_walls(-1, 0):
+                        self.x -= 1
+                if (px - self.x < 0 and self.y == py):
+                    print("left")
+                    if not self.collide_with_walls(1, 0):
+                        self.x += 1
+                if (self.y - py < 0 and self.x == px):
+                    print("up")
+                    if not self.collide_with_walls(0, -1):
+                        self.y -= 1
+                if (py - self.y < 0 and self.x == px):
+                    print("down")
+                    if not self.collide_with_walls(0, 1):
+                        self.y += 1
 
     def collide_with_walls(self, dx=0, dy=0):
         for wall in self.game.walls:
@@ -234,5 +241,4 @@ class rabbit(pg.sprite.Sprite):
     def update(self):
         self.rect.x = self.x * TILESIZE
         self.rect.y = self.y * TILESIZE
-
-    # def randomSpawnedItems(pg.sprite.Sprite)
+    #def randomSpawnedItems(pg.sprite.Sprite)
