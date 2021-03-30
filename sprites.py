@@ -37,6 +37,7 @@ class Player(pg.sprite.Sprite):
             if rabbit.x == self.x + 1 and rabbit.y == self.y or (rabbit.x == self.x - 1 and rabbit.y == self.y) or (rabbit.y == self.y + 1 and rabbit.x == self.x)or(rabbit.y == self.y - 1 and rabbit.x == self.x):
                 rabbit.kill()
 
+
     def update(self):
         self.rect.x = self.x * TILESIZE
         self.rect.y = self.y * TILESIZE

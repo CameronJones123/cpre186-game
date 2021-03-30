@@ -9,6 +9,7 @@ from os import path
 from settings import *
 from sprites import *
 import random
+from Inventory import *
 
 class Game:
     def __init__(self):
@@ -18,6 +19,8 @@ class Game:
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500, 100)
         self.load_data()
+        self.usedInventory = inventory(pg)
+
 
     def load_data(self):
         game_folder = path.dirname(__file__)
@@ -110,6 +113,8 @@ class Game:
         self.all_sprites.draw(self.screen)
         for entity in self.all_sprites:
             self.screen.blit(entity.image, entity.rect)
+        if self.usedInventory.isLoaded == True:
+            self.screen.blit(self.usedInventory.image,self.usedInventory.rect)
         pg.display.flip()
 
     def events(self):
@@ -148,6 +153,10 @@ class Game:
                     self.player.isShooting = False
                 if event.key == pg.K_0:
                     self.player.collect()
+                if event.key == pg.K_i and self.usedInventory.isLoaded == False:
+                    self.usedInventory.isLoaded = True
+                elif event.key == pg.K_i and self.usedInventory.isLoaded == True:
+                    self.usedInventory.isLoaded = False
         Movex = random.randint(-1,1)
         Movey = random.randint(-1,1)
 
