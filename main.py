@@ -20,6 +20,7 @@ class Game:
         pg.key.set_repeat(500, 100)
         self.load_data()
         self.usedInventory = inventory(pg)
+        self.texts = []
 
 
     def load_data(self):
@@ -66,6 +67,7 @@ class Game:
         self.walls = pg.sprite.Group()
         self.bullets = pg.sprite.Group()
         self.rabbits = pg.sprite.Group()
+        self.stone = pg.sprite.Group()
         for row, tiles in enumerate(self.map_data):
             for col, tile in enumerate(tiles):
                 if tile == '1': #loads a traditional, non-passable wall
@@ -115,6 +117,8 @@ class Game:
             self.screen.blit(entity.image, entity.rect)
         if self.usedInventory.isLoaded == True:
             self.screen.blit(self.usedInventory.image,self.usedInventory.rect)
+        for text in self.texts:
+            self.screen.blit(text.textSurface,text.textSurfaceRect)
         pg.display.flip()
 
     def events(self):
@@ -165,6 +169,10 @@ class Game:
 
         for bullet in self.bullets:
             bullet.move()
+        for text in self.texts:
+            text.unload()
+            if(text.remove == True):
+                self.texts.remove(text)
 
     def show_start_screen(self):
         pass

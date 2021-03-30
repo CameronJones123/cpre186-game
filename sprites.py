@@ -1,6 +1,7 @@
 import pygame as pg
 import random
 from settings import *
+from Inventory import *
 
 
 class Player(pg.sprite.Sprite):
@@ -50,6 +51,8 @@ class Player(pg.sprite.Sprite):
                     stone.stone -= stoneChange
                     self.pickAxes[0].swing()
                     stone.mining()
+                    newText = text(self.game,stoneChange,True,self)
+                    self.game.texts.append(newText)
                     if(self.pickAxes[0].isBroken == True):
                         self.pickAxes.pop(0)
 
