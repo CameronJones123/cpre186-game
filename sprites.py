@@ -1,4 +1,5 @@
 import pygame as pg
+import random
 from settings import *
 
 
@@ -14,6 +15,11 @@ class Player(pg.sprite.Sprite):
         self.x = x
         self.y = y
         self.isShooting = False
+        self.wood = 0
+        self.food = 0
+        self.stone = 0
+        self.pickAxes = [pickAxe(game,self.x,self.y)]
+        self.pickAxe = 1
 
     def move(self, dx=0, dy=0):
         if not self.collide_with_walls(dx, dy):
@@ -36,6 +42,17 @@ class Player(pg.sprite.Sprite):
         for rabbit in self.game.rabbits:
             if rabbit.x == self.x + 1 and rabbit.y == self.y or (rabbit.x == self.x - 1 and rabbit.y == self.y) or (rabbit.y == self.y + 1 and rabbit.x == self.x)or(rabbit.y == self.y - 1 and rabbit.x == self.x):
                 rabbit.kill()
+        for stone in self.game.stone:
+            if stone.x == self.x +1 and stone.y == self.y or (stone.x == self.x -1 and stone.y == self.y) or (stone.y == self.y+1 and stone.x == self.x) or (stone.y == self.y-1 and stone.x == self.x):
+                if(len(self.pickAxes) != 0):
+                    stoneChange = random.randint(1,5)
+                    self.stone += stoneChange
+                    stone.stone -= stoneChange
+                    self.pickAxes[0].swing()
+                    stone.mining()
+                    if(self.pickAxes[0].isBroken == True):
+                        self.pickAxes.pop(0)
+
 
 
     def update(self):
@@ -133,7 +150,7 @@ class PassableWall(pg.sprite.Sprite):
 class Stone(pg.sprite.Sprite):  # How stones in the game will be created
     def __init__(self, game, x, y):
         super(Stone, self).__init__()
-        self.groups = game.all_sprites
+        self.groups = game.all_sprites,game.stone
         pg.sprite.Sprite.__init__(self, self.groups)
         self.image = pg.image.load("stone.png").convert()  # loads in the stone.png file
         self.image.set_colorkey((255, 255, 255))  # don't need for this one, but the background color will be white
@@ -142,6 +159,10 @@ class Stone(pg.sprite.Sprite):  # How stones in the game will be created
         self.y = y
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
+        self.stone = 10
+    def mining(self):
+        if self.stone <= 0:
+            self.kill()
 
 
 class Food(pg.sprite.Sprite):  # Creating Food for the game
@@ -243,3 +264,24 @@ class rabbit(pg.sprite.Sprite):
         self.rect.x = self.x * TILESIZE
         self.rect.y = self.y * TILESIZE
     #def randomSpawnedItems(pg.sprite.Sprite)
+
+class pickAxe(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        super(pickAxe, self).__init__()  # gives access to methods and properties
+        self.groups = game.all_sprites  # groups wood with all_sprites
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.image = pg.image.load("wood.png").convert()  # loads in our wood.png file
+        self.image.set_colorkey((255, 255, 255))  # sets the transparent's background color to white
+        self.rect = self.image.get_rect()  # says the image is in the rectangle
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
+        self.isBroken = False
+        self.durability = 100
+    def swing(self):
+        durabiltiyLost = random.randint(1,5)
+        self.durability -= durabiltiyLost
+        if(self.durability <= 0):
+            print("broken")
+            self.isBroken = True
