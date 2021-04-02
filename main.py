@@ -15,6 +15,7 @@ class Game:
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT)) #creates the size of the screen
         pg.display.set_caption(TITLE)
+        self.screen.blit(BACKGROUND,(0,0)) #loads in the background image into the main game
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500, 100)
         self.load_data()
@@ -87,7 +88,7 @@ class Game:
             self.dt = self.clock.tick(FPS) / 1000
             self.events()
             self.update()
-            self.draw()
+            self.draw()    #draws everything onto the screen when loaded
 
     #defining what happens when the program is closed/quits
     def quit(self):
@@ -105,12 +106,32 @@ class Game:
             pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
     def draw(self):
-        self.screen.fill(BGCOLOR)
+        #self.screen.fill(BGCOLOR)
+
         self.draw_grid()
         self.all_sprites.draw(self.screen)
         for entity in self.all_sprites:
             self.screen.blit(entity.image, entity.rect)
         pg.display.flip()
+####################################### WORK IN PROGRESSElla Rose Rekow
+    def headUpDisplay(self):
+        self.screen.set_alpha(128) #sets the alpha/ transparency to 50% (half-ish of 255)
+        # Drawing the rectangle for the HUD
+
+        pg.draw.rect(self.screen, WHTIE, pg.Rect(WIDTH-200, 0, WIDTH, 100)) #draws the rectangle in the upper right
+        pg.draw.rect(self.screen, WHTIE, pg.Rect(100, 100, 200, 200))
+    #self.screen.fill(WIDTH-200, 0, WIDTH, 100)
+    #windowSurface.blit(self.screen, (WIDTH-200,0)) 
+        #pg.display.flip()   #updates the screen   //dont THINK I need since I am using Blit
+
+        #1024 x 768
+
+
+        #s = pygame.Surface((1000,750))  # the size of your rect
+        #s.set_alpha(128)                # alpha level
+        #s.fill((255,255,255))           # this fills the entire surface
+        #windowSurface.blit(s, (0,0))    # (0,0) are the top-left coordinates
+
 
     def events(self):
         # catch all events here
