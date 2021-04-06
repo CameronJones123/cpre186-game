@@ -235,7 +235,7 @@ class rabbit(pg.sprite.Sprite):
         self.rect.x = self.x * TILESIZE
         self.rect.y = self.y * TILESIZE
 
-     def background(self):
+    def background(self):
         self.image = pygame.image.load("background.jpg")
         self.rect = self.image.get_rect()
         self.rect.left, self.rect.top = (0,0)

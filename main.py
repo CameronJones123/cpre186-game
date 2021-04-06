@@ -1,5 +1,4 @@
 #Group 1's city builder main program.
-#Last updated 03/09/21
 #Members Names: Isaac Vrba, Cameron Jones, Dan.
 
 
@@ -87,7 +86,7 @@ class Game:
             self.dt = self.clock.tick(FPS) / 1000
             self.events()
             self.update()
-            self.draw()
+            self.draw()    #draws everything onto the screen when loaded
 
     #defining what happens when the program is closed/quits
     def quit(self):
@@ -104,9 +103,8 @@ class Game:
         for y in range(0, HEIGHT, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
-
     def draw(self):
-        self.screen.blit(BACKGROUND,(0,0)) #loads in our image as the background and updates it with the game
+        self.screen.blit(BACKGROUND,(0,0))
         self.draw_grid()
         self.all_sprites.draw(self.screen)
         for entity in self.all_sprites:
@@ -171,3 +169,4 @@ while True:
     g.itemSpawner()
     g.run()
     g.show_go_screen()
+        

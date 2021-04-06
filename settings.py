@@ -16,7 +16,7 @@ WIDTH = 1024   #a large enough number that occupies the screen and also divisibl
 HEIGHT = 768  #same logic as the width, but for height
 FPS = 144
 TITLE = "CprE 186 Game"
-BACKGROUND = pg.image.load("background.jpg") #loads in our images and sets it equal to 'BACKGROUND'
+BACKGROUND = pg.image.load("background.jpg")
 
 TILESIZE = 32  #size of the tile that we chose
 GRIDWIDTH = WIDTH / TILESIZE
