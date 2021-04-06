@@ -15,7 +15,7 @@ class Game:
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT)) #creates the size of the screen
         pg.display.set_caption(TITLE)
-        self.screen.blit(BACKGROUND,(0,0)) #loads in the background image into the main game
+        #self.screen(BACKGROUND,(0,0)) #loads in the background image into the main game     #took out blit
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500, 100)
         self.load_data()
@@ -107,7 +107,7 @@ class Game:
 
     def draw(self):
         #self.screen.fill(BGCOLOR)
-
+        self.screen.blit(BACKGROUND,(0,0))#############################
         self.draw_grid()
         self.all_sprites.draw(self.screen)
         for entity in self.all_sprites:

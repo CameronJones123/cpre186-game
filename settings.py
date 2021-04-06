@@ -19,7 +19,6 @@ TITLE = "CprE 186 Game"	#text at the top of the window when the program runs
 #BGCOLOR = DARKGREY
 BACKGROUND = pg.image.load("background.jpg") #loads in our background
 
-
 TILESIZE = 32  #size of the tile that we chose
 GRIDWIDTH = WIDTH / TILESIZE
 GRIDHEIGHT = HEIGHT / TILESIZE
