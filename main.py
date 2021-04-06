@@ -68,6 +68,7 @@ class Game:
         self.bullets = pg.sprite.Group()
         self.rabbits = pg.sprite.Group()
         self.stone = pg.sprite.Group()
+        self.food = pg.sprite.Group()
         for row, tiles in enumerate(self.map_data):
             for col, tile in enumerate(tiles):
                 if tile == '1': #loads a traditional, non-passable wall
@@ -161,6 +162,8 @@ class Game:
                     self.usedInventory.isLoaded = True
                 elif event.key == pg.K_i and self.usedInventory.isLoaded == True:
                     self.usedInventory.isLoaded = False
+
+
         Movex = random.randint(-1,1)
         Movey = random.randint(-1,1)
 

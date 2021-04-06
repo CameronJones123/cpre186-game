@@ -16,10 +16,12 @@ class Player(pg.sprite.Sprite):
         self.x = x
         self.y = y
         self.isShooting = False
-        self.wood = 0
+        self.wood = 60
         self.food = 0
+        self.wheat = 0
         self.stone = 0
-        self.pickAxes = [pickAxe(game,self.x,self.y)]
+        self.pickAxes = [pickAxe(game)]
+        self.sythes = [sythe(game)]
         self.pickAxe = 1
 
     def move(self, dx=0, dy=0):
@@ -54,6 +56,18 @@ class Player(pg.sprite.Sprite):
                     newText = text(self.game,stoneChange,True,self)
                     self.game.texts.append(newText)
                     if(self.pickAxes[0].isBroken == True):
+                        self.pickAxes.pop(0)
+        for wheat in self.game.food:
+            if wheat.x == self.x +1 and wheat.y == self.y or (wheat.x == self.x -1 and wheat.y == self.y) or (wheat.y == self.y+1 and wheat.x == self.x) or (wheat.y == self.y-1 and wheat.x == self.x):
+                if(len(self.sythes) != 0):
+                    wheatChange = random.randint(1,5)
+                    self.food += wheatChange
+                    wheat.food -= wheatChange
+                    self.sythes[0].swing()
+                    wheat.collecting()
+                    newText = text(self.game,wheatChange,True,self)
+                    self.game.texts.append(newText)
+                    if(self.sythes[0].isBroken == True):
                         self.pickAxes.pop(0)
 
 
@@ -171,15 +185,19 @@ class Stone(pg.sprite.Sprite):  # How stones in the game will be created
 class Food(pg.sprite.Sprite):  # Creating Food for the game
     def __init__(self, game, x, y):
         super(Food, self).__init__()  # gives access to methods and properties
-        self.groups = game.all_sprites  # groups Food with all_sprites
+        self.groups = game.all_sprites,game.food  # groups Food with all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.image = pg.image.load("food.png").convert()  # loads in our food.png file
         self.image.set_colorkey((255, 255, 255))  # sets the transparent's background color to white
         self.rect = self.image.get_rect()  # says the image is in the rectangle
         self.x = x
         self.y = y
+        self.food = 10
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
+    def collecting(self):
+        if self.food <= 0:
+            self.kill()
 
 
 class Gold(pg.sprite.Sprite):  # Creating Gold Ore for the game
@@ -269,17 +287,30 @@ class rabbit(pg.sprite.Sprite):
     #def randomSpawnedItems(pg.sprite.Sprite)
 
 class pickAxe(pg.sprite.Sprite):
-    def __init__(self, game, x, y):
+    def __init__(self, game):
         super(pickAxe, self).__init__()  # gives access to methods and properties
         self.groups = game.all_sprites  # groups wood with all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.image = pg.image.load("wood.png").convert()  # loads in our wood.png file
         self.image.set_colorkey((255, 255, 255))  # sets the transparent's background color to white
         self.rect = self.image.get_rect()  # says the image is in the rectangle
-        self.x = x
-        self.y = y
-        self.rect.x = x * TILESIZE
-        self.rect.y = y * TILESIZE
+        self.isBroken = False
+        self.durability = 100
+    def swing(self):
+        durabiltiyLost = random.randint(1,5)
+        self.durability -= durabiltiyLost
+        if(self.durability <= 0):
+            print("broken")
+            self.isBroken = True
+
+class sythe(pg.sprite.Sprite):
+    def __init__(self, game):
+        super(sythe, self).__init__()  # gives access to methods and properties
+        self.groups = game.all_sprites  # groups wood with all_sprites
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.image = pg.image.load("wood.png").convert()  # loads in our wood.png file
+        self.image.set_colorkey((255, 255, 255))  # sets the transparent's background color to white
+        self.rect = self.image.get_rect()  # says the image is in the rectangle
         self.isBroken = False
         self.durability = 100
     def swing(self):
