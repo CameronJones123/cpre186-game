@@ -111,6 +111,21 @@ class Game:
             self.screen.blit(entity.image, entity.rect)
         pg.display.flip()
 
+    def inventory(self):
+        inventoryRunning = True
+        while inventoryRunning:
+            self.screen.fill((0,0,0))
+
+            for event in pg.event.get():
+                if event.key == pg.K_ESCAPE:
+                    pg.quit()
+                    sys.exit()
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_TAB:
+                        inventoryRunning = False
+
+            pg.display.update()
+
 
     def events(self):
         # catch all events here
@@ -146,6 +161,8 @@ class Game:
                 if event.key == pg.K_LEFT and self.player.isShooting == True:
                     self.player.shoot(-1, 0)
                     self.player.isShooting = False
+                if event.key == pg.K_TAB:   #opens up inventory
+                    self.inventory()
         Movex = random.randint(-1,1)
         Movey = random.randint(-1,1)
 
