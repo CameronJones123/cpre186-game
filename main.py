@@ -104,13 +104,15 @@ class Game:
         for y in range(0, HEIGHT, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
+
     def draw(self):
-        self.screen.fill(BGCOLOR)
+        self.screen.blit(BACKGROUND,(0,0)) #loads in our image as the background and updates it with the game
         self.draw_grid()
         self.all_sprites.draw(self.screen)
         for entity in self.all_sprites:
             self.screen.blit(entity.image, entity.rect)
         pg.display.flip()
+
 
     def events(self):
         # catch all events here
