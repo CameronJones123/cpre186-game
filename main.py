@@ -1,4 +1,5 @@
 #Group 1's city builder main program.
+#Last updated 03/09/21
 #Members Names: Isaac Vrba, Cameron Jones, Dan.
 
 
@@ -8,6 +9,7 @@ from os import path
 from settings import *
 from sprites import *
 import random
+from Inventory import *
 
 class Game:
     def __init__(self):
@@ -17,6 +19,9 @@ class Game:
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500, 100)
         self.load_data()
+        self.usedInventory = inventory(pg)
+        self.texts = []
+
 
     def load_data(self):
         game_folder = path.dirname(__file__)
@@ -62,6 +67,8 @@ class Game:
         self.walls = pg.sprite.Group()
         self.bullets = pg.sprite.Group()
         self.rabbits = pg.sprite.Group()
+        self.stone = pg.sprite.Group()
+        self.food = pg.sprite.Group()
         for row, tiles in enumerate(self.map_data):
             for col, tile in enumerate(tiles):
                 if tile == '1': #loads a traditional, non-passable wall
@@ -86,7 +93,7 @@ class Game:
             self.dt = self.clock.tick(FPS) / 1000
             self.events()
             self.update()
-            self.draw()    #draws everything onto the screen when loaded
+            self.draw()
 
     #defining what happens when the program is closed/quits
     def quit(self):
@@ -103,18 +110,10 @@ class Game:
         for y in range(0, HEIGHT, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
-    def draw(self):
-        self.screen.blit(BACKGROUND,(0,0))
-        self.draw_grid()
-        self.all_sprites.draw(self.screen)
-        for entity in self.all_sprites:
-            self.screen.blit(entity.image, entity.rect)
-        pg.display.flip()
-
     def inventory(self):
         inventoryRunning = True
         while inventoryRunning:
-            self.screen.fill((0,0,0))
+            self.screen.fill((0, 0, 0))
 
             for event in pg.event.get():
                 if event.key == pg.K_ESCAPE:
@@ -126,6 +125,17 @@ class Game:
 
             pg.display.update()
 
+    def draw(self):
+        self.screen.blit(BACKGROUND,(0,0))
+        self.draw_grid()
+        self.all_sprites.draw(self.screen)
+        for entity in self.all_sprites:
+            self.screen.blit(entity.image, entity.rect)
+        if self.usedInventory.isLoaded == True:
+            self.screen.blit(self.usedInventory.image,self.usedInventory.rect)
+        for text in self.texts:
+            self.screen.blit(text.textSurface,text.textSurfaceRect)
+        pg.display.flip()
 
     def events(self):
         # catch all events here
@@ -161,8 +171,14 @@ class Game:
                 if event.key == pg.K_LEFT and self.player.isShooting == True:
                     self.player.shoot(-1, 0)
                     self.player.isShooting = False
-                if event.key == pg.K_TAB:   #opens up inventory
-                    self.inventory()
+                if event.key == pg.K_0:
+                    self.player.collect()
+                if event.key == pg.K_i and self.usedInventory.isLoaded == False:
+                    self.usedInventory.isLoaded = True
+                elif event.key == pg.K_i and self.usedInventory.isLoaded == True:
+                    self.usedInventory.isLoaded = False
+
+
         Movex = random.randint(-1,1)
         Movey = random.randint(-1,1)
 
@@ -171,6 +187,10 @@ class Game:
 
         for bullet in self.bullets:
             bullet.move()
+        for text in self.texts:
+            text.unload()
+            if(text.remove == True):
+                self.texts.remove(text)
 
     def show_start_screen(self):
         pass
