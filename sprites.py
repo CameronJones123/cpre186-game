@@ -238,7 +238,7 @@ class rabbit(pg.sprite.Sprite):
         self.coolDown = 300
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
-        self.image.fill(YELLOW)
+        self.image = pg.image.load("rabbit.png").convert_alpha()  # loads in our gold.png file
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
