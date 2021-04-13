@@ -208,12 +208,14 @@ class Game:
 
         self.Rabbit.move(dx=Movex, px=self.player.x, py=self.player.y)
         self.Rabbit.move(dy=Movey, px=self.player.x, py=self.player.y)
-
+        moveHorizOrVert = random.randint(0, 1)
         for bear in self.bearList:
-            Movex = random.randint(-1, 1)
-            Movey = random.randint(-1, 1)
-            bear.move(dx=Movex, px=self.player.x, py=self.player.y)
-            bear.move(dy=Movey, px=self.player.x, py=self.player.y)
+            if(moveHorizOrVert == 1):
+                Movex = random.randint(-1, 1)
+                bear.move(dx=Movex, px=self.player.x, py=self.player.y)
+            else:
+                Movey = random.randint(-1, 1)
+                bear.move(dy=Movey, px=self.player.x, py=self.player.y)
 
         for bullet in self.bullets:
             bullet.move()
