@@ -136,9 +136,25 @@ class Game:
 
     def inventory(self):
         inventoryRunning = True
+        black = (0, 0, 0)
+        green = (0, 255, 0)
+        blue = (0, 0, 128)
         while inventoryRunning:
-            self.screen.fill((0, 0, 0))
-
+            X = 1024
+            Y = 768
+            display_surface = pg.display.set_mode((X, Y))
+            pg.display.set_caption('Inventory')
+            font = pg.font.Font('freesansbold.ttf', 32)
+            text = font.render("Stone: " + str(self.player.stone), True, green, blue)
+            text2 = font.render("Food: " + str(self.player.food), True, green, blue)
+            textRect = text.get_rect()
+            text2Rect = text2.get_rect()
+            textRect.center = (X // 2, Y // 2)
+            text2Rect.center = (X // 2, Y // 2 - 30)
+            display_surface.fill(black)
+            display_surface.blit(text, textRect)
+            display_surface.blit(text2, text2Rect)
+            font = pg.font.Font
             for event in pg.event.get():
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_TAB:
