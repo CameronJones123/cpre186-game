@@ -35,7 +35,7 @@ class Game:
         self.walls = pg.sprite.Group()
 
         #item_list is a list of possible items to add to the map
-        item_list = ['R', 'S', 'F', 'G']
+        item_list = ['R', 'S', 'F', 'G', 'W']
         #item_qty is a list containing the quantities of each item
         item_qty = [0, 0, 0, 0, 0]
         for row, tiles in enumerate(self.map_data):
