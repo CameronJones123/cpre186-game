@@ -17,6 +17,9 @@ class Game:
         self.screen = pg.display.set_mode((WIDTH, HEIGHT)) #creates the size of the screen
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
+        self.bearList = []
+        self.bears = pg.sprite.Group()
+        self.bearCount = 1
         pg.key.set_repeat(500, 100)
         self.load_data()
         #self.usedInventory = inventory(pg)
