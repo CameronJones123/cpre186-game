@@ -143,7 +143,7 @@ class Wall(pg.sprite.Sprite):  # traditional, non-passable wall
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
-        self.image = pg.image.load("hedge_wall.png").convert()  # loads in the stone.png file
+        self.image = pg.image.load("hedge_wall.png").convert_alpha()  # loads in the stone.png file
         #self.image.fill(GREEN)
         self.rect = self.image.get_rect()
         self.x = x
@@ -171,7 +171,7 @@ class Stone(pg.sprite.Sprite):  # How stones in the game will be created
         super(Stone, self).__init__()
         self.groups = game.all_sprites,game.stone
         pg.sprite.Sprite.__init__(self, self.groups)
-        self.image = pg.image.load("stone.png").convert()  # loads in the stone.png file
+        self.image = pg.image.load("stone.png").convert_alpha()  # loads in the stone.png file
         self.image.set_colorkey((255, 255, 255))  # don't need for this one, but the background color will be white
         self.rect = self.image.get_rect()  # saying that the image is the rectagle
         self.x = x
@@ -189,7 +189,7 @@ class Food(pg.sprite.Sprite):  # Creating Food for the game
         super(Food, self).__init__()  # gives access to methods and properties
         self.groups = game.all_sprites,game.food  # groups Food with all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
-        self.image = pg.image.load("food.png").convert()  # loads in our food.png file
+        self.image = pg.image.load("food.png").convert_alpha()  # loads in our food.png file
         self.image.set_colorkey((255, 255, 255))  # sets the transparent's background color to white
         self.rect = self.image.get_rect()  # says the image is in the rectangle
         self.x = x
@@ -207,7 +207,7 @@ class Gold(pg.sprite.Sprite):  # Creating Gold Ore for the game
         super(Gold, self).__init__()  # gives access to methods and properties
         self.groups = game.all_sprites  # groups gold with all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
-        self.image = pg.image.load("gold_ore.png").convert()  # loads in our gold.png file
+        self.image = pg.image.load("gold_ore.png").convert_alpha()  # loads in our gold.png file
         self.image.set_colorkey((255, 255, 255))  # sets the transparent's background color to white
         self.rect = self.image.get_rect()  # says the image is in the rectangle
         self.x = x
@@ -221,7 +221,7 @@ class Wood(pg.sprite.Sprite):
         super(Wood, self).__init__()  # gives access to methods and properties
         self.groups = game.all_sprites  # groups wood with all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
-        self.image = pg.image.load("wood.png").convert()  # loads in our wood.png file
+        self.image = pg.image.load("wood.png").convert_alpha()  # loads in our wood.png file
         self.image.set_colorkey((255, 255, 255))  # sets the transparent's background color to white
         self.rect = self.image.get_rect()  # says the image is in the rectangle
         self.x = x
@@ -298,7 +298,7 @@ class pickAxe(pg.sprite.Sprite):
         super(pickAxe, self).__init__()  # gives access to methods and properties
         self.groups = game.all_sprites  # groups wood with all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
-        self.image = pg.image.load("wood.png").convert()  # loads in our wood.png file
+        self.image = pg.image.load("wood.png").convert_alpha()  # loads in our wood.png file
         self.image.set_colorkey((255, 255, 255))  # sets the transparent's background color to white
         self.rect = self.image.get_rect()  # says the image is in the rectangle
         self.isBroken = False
@@ -315,7 +315,7 @@ class sythe(pg.sprite.Sprite):
         super(sythe, self).__init__()  # gives access to methods and properties
         self.groups = game.all_sprites  # groups wood with all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
-        self.image = pg.image.load("wood.png").convert()  # loads in our wood.png file
+        self.image = pg.image.load("wood.png").convert_alpha()  # loads in our wood.png file
         self.image.set_colorkey((255, 255, 255))  # sets the transparent's background color to white
         self.rect = self.image.get_rect()  # says the image is in the rectangle
         self.isBroken = False
