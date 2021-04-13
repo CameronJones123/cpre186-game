@@ -94,6 +94,18 @@ class Game:
                     Gold(self, col, row)
                 if tile == "W": #loads in wood
                     Wood(self, col, row)
+    def spawn(self):
+        now = pg.time.get_ticks()
+        count = range(self.bearCount)
+        initx = 5
+        inity = 6
+        if (now % 400 == 0):
+            for New_bear in count:
+                self.Bear = bear(self, initx,inity)
+                self.bearList.append(self.Bear)
+                initx += 1
+                inity -= 1
+            self.bearCount += 1
 
     def run(self):
         # game loop - set self.playing = False to end the game
@@ -189,9 +201,16 @@ class Game:
 
         Movex = random.randint(-1,1)
         Movey = random.randint(-1,1)
+        self.spawn()
 
         self.Rabbit.move(dx=Movex, px=self.player.x, py=self.player.y)
         self.Rabbit.move(dy=Movey, px=self.player.x, py=self.player.y)
+
+        for bear in self.bearList:
+            Movex = random.randint(-1, 1)
+            Movey = random.randint(-1, 1)
+            bear.move(dx=Movex, px=self.player.x, py=self.player.y)
+            bear.move(dy=Movey, px=self.player.x, py=self.player.y)
 
         for bullet in self.bullets:
             bullet.move()

@@ -326,3 +326,83 @@ class sythe(pg.sprite.Sprite):
         if(self.durability <= 0):
             print("broken")
             self.isBroken = True
+class bear(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.bears
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.last = pg.time.get_ticks()
+        self.coolDown = 300
+        self.game = game
+        self.image = pg.Surface((TILESIZE, TILESIZE))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.isDead = False
+
+
+    def move(self, dx=0, dy=0, px=0, py=0):
+        now = pg.time.get_ticks()
+        self.attackMove = False
+        if(self.isDead == False):
+            if (now % 50 == 0):
+                if (self.x - px < 0 and self.y == py):
+                    print("left")
+                    if not self.collide_with_walls(1, 0) and not self.collide_with_Player(1,0):
+                        self.x += 1
+                        self.attackMove = True
+                    if self.collide_with_Player(1,0):
+                        healthLost = random.randint(1,5)
+                        self.game.player.health -= healthLost
+                if (px - self.x < 0 and self.y == py):
+                    print("right")
+                    if not self.collide_with_walls(-1, 0) and not self.collide_with_Player(-1,0):
+                        self.x -= 1
+                        self.attackMove = True
+                    if self.collide_with_Player(-1,0):
+                        healthLost = random.randint(1,5)
+                        self.game.player.health -= healthLost
+                if (self.y - py < 0 and self.x == px):
+                    print("down")
+                    if not self.collide_with_walls(0, 1) and not self.collide_with_Player(0,1):
+                        self.y += 1
+                        self.attackMove = True
+                    if self.collide_with_Player(0,1):
+                        healthLost = random.randint(1,5)
+                        self.game.player.health -= healthLost
+                if (py - self.y < 0 and self.x == px):
+                    print("up")
+                    if not self.collide_with_walls(0, -1) and not self.collide_with_Player(0,-1):
+                        self.y -= 1
+                        self.attackMove = True
+                    if self.collide_with_Player(0,-1):
+                        healthLost = random.randint(1,5)
+                        self.game.player.health -= healthLost
+                if(self.attackMove == False):
+                    if not self.collide_with_walls(dx, dy):
+                        self.x += dx
+                        self.y += dy
+
+                print(self.game.player.health)
+
+    def collide_with_walls(self, dx=0, dy=0):
+        for wall in self.game.walls:
+            if wall.x == self.x + dx and wall.y == self.y + dy:
+                return True
+        return False
+    def collide_with_Player(self, dx=0, dy=0):
+        if self.game.player.x == self.x + dx and self.game.player.y == self.y + dy:
+            print("collided")
+            return True
+        return False
+
+    # Coppied from collide with wall. Will eventually be a door. Probably needs to be edited.
+    def collide_with_passableWalls(self, dx=0, dy=0):
+        for wall in self.game.walls:
+            if wall.x == self.x + dx and wall.y == self.y + dy:
+                return True
+        return False
+
+    def update(self):
+        self.rect.x = self.x * TILESIZE
+        self.rect.y = self.y * TILESIZE
