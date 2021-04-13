@@ -19,7 +19,7 @@ class Game:
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500, 100)
         self.load_data()
-        self.usedInventory = inventory(pg)
+        #self.usedInventory = inventory(pg)
         self.texts = []
 
 
@@ -116,9 +116,6 @@ class Game:
             self.screen.fill((0, 0, 0))
 
             for event in pg.event.get():
-                if event.key == pg.K_ESCAPE:
-                    pg.quit()
-                    sys.exit()
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_TAB:
                         inventoryRunning = False
@@ -131,8 +128,8 @@ class Game:
         self.all_sprites.draw(self.screen)
         for entity in self.all_sprites:
             self.screen.blit(entity.image, entity.rect)
-        if self.usedInventory.isLoaded == True:
-            self.screen.blit(self.usedInventory.image,self.usedInventory.rect)
+        #if self.usedInventory.isLoaded == True:
+            #self.screen.blit(self.usedInventory.image,self.usedInventory.rect)
         for text in self.texts:
             self.screen.blit(text.textSurface,text.textSurfaceRect)
         pg.display.flip()
@@ -173,10 +170,12 @@ class Game:
                     self.player.isShooting = False
                 if event.key == pg.K_0:
                     self.player.collect()
-                if event.key == pg.K_i and self.usedInventory.isLoaded == False:
-                    self.usedInventory.isLoaded = True
-                elif event.key == pg.K_i and self.usedInventory.isLoaded == True:
-                    self.usedInventory.isLoaded = False
+                #if event.key == pg.K_i and self.usedInventory.isLoaded == False:
+                    #self.usedInventory.isLoaded = True
+                #elif event.key == pg.K_i and self.usedInventory.isLoaded == True:
+                    #self.usedInventory.isLoaded = False
+                if event.key == pg.K_TAB:
+                    self.inventory()
 
 
         Movex = random.randint(-1,1)
