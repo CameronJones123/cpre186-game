@@ -143,7 +143,7 @@ class Wall(pg.sprite.Sprite):  # traditional, non-passable wall
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
-        self.image = pg.image.load("hedge_wall.png").convert_alpha()  # loads in the stone.png file
+        self.image = pg.image.load("stone_wall.png").convert_alpha()  # loads in the stone.png file
         #self.image.fill(GREEN)
         self.rect = self.image.get_rect()
         self.x = x
