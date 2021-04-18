@@ -226,6 +226,8 @@ class Game:
         self.Rabbit.move(dy=Movey, px=self.player.x, py=self.player.y)
         moveHorizOrVert = random.randint(0, 1)
         for bear in self.bearList:
+            if(bear.isDead == True):
+                bear.kill()
             if(moveHorizOrVert == 1):
                 Movex = random.randint(-1, 1)
                 bear.move(dx=Movex, px=self.player.x, py=self.player.y)

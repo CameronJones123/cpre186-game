@@ -122,12 +122,19 @@ class bullet(pg.sprite.Sprite):
                 rabbit.image.fill(WHITE)
                 return True
         return False
-
+    def collide_with_bear(self, dx=0, dy=0):
+        for bear in self.game.bears:
+            if bear.x == self.x + dx and bear.y == self.y + dy:
+                bear.isDead = True
+                bear.image.fill(WHITE)
+                return True
     def move(self):
         print(self.x)
         print("fesf")
         now = pg.time.get_ticks()
         if self.collide_with_rabbit():
+            self.kill()
+        if self.collide_with_bear():
             self.kill()
         if not self.collide_with_walls(self.dirx, self.dirY):
             if (now % 25 == 0):
