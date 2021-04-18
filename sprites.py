@@ -20,6 +20,7 @@ class Player(pg.sprite.Sprite):
         self.food = 0
         self.wheat = 0
         self.health = 1
+        self.arrows = 0
         self.stone = 0
         self.pickAxes = [pickAxe(game)]
         self.sythes = [sythe(game)]

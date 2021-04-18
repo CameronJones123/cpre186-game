@@ -48,6 +48,8 @@ class crafting():
             player.arrows += 1
             player.wood -= 50
             player.stone -= 10
+        else:
+            print("failed to make arrow")
 
 
 

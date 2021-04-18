@@ -19,6 +19,10 @@ class Game:
         self.clock = pg.time.Clock()
         self.bearList = []
         self.bears = pg.sprite.Group()
+        self.isCrafting = False
+        self.inventoryRunning = False
+        self.optionChosen = 0
+        self.ChosenMenu = 0
         self.bearCount = 1
         pg.key.set_repeat(500, 100)
         self.load_data()
@@ -135,11 +139,12 @@ class Game:
             pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
     def inventory(self):
-        inventoryRunning = True
+        self.inventoryRunning = True
+        self.isCrafting = False
         black = (0, 0, 0)
         green = (0, 255, 0)
         blue = (0, 0, 128)
-        while inventoryRunning:
+        while self.inventoryRunning:
             X = 1024
             Y = 768
             display_surface = pg.display.set_mode((X, Y))
@@ -158,9 +163,59 @@ class Game:
             for event in pg.event.get():
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_TAB:
-                        inventoryRunning = False
+                        self.inventoryRunning = False
+                    if event.key == pg.K_RIGHT and self.inventoryRunning == True:
+                        display_surface.fill(black)
+                        self.isCrafting = True
+                        self.crafting()
+                        print("true")
+
 
             pg.display.update()
+    def crafting(self):
+        black = (0, 0, 0)
+        green = (0, 255, 0)
+        blue = (0, 0, 128)
+
+        while self.isCrafting:
+            X = 1024
+            Y = 768
+            display_surface = pg.display.set_mode((X, Y))
+            pg.display.set_caption('Inventory')
+            font = pg.font.Font('freesansbold.ttf', 32)
+            craftText = font.render("Create Pickaxe: ", True, green, blue)
+            craftText1 = font.render("Make Arrow: ", True, green, blue)
+            arrow = font.render("--->", True, green, blue)
+            craftTextRect = craftText.get_rect()
+            craftText1Rect = craftText1.get_rect()
+            arrowRect = arrow.get_rect()
+            craftTextRect.center = (X // 2, Y // 2)
+            craftText1Rect.center = (X // 2, Y // 2 + 35)
+            #arrowRect.center = (X // 2 - 200,Y // 2-35)
+            if (self.optionChosen == 0):
+                print("location")
+                arrowRect.center = (X // 2 - 200, Y // 2)
+            else:
+                arrowRect.center = (X // 2-200, Y // 2 + (35 * self.optionChosen))
+            display_surface.fill(black)
+            display_surface.blit(craftText, craftTextRect)
+            display_surface.blit(craftText1, craftText1Rect)
+            display_surface.blit(arrow,arrowRect)
+
+            font = pg.font.Font
+            for event in pg.event.get():
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_TAB:
+                        self.inventoryRunning = False
+                        self.isCrafting = False
+                    if event.key == pg.K_DOWN and self.isCrafting == True:
+                        self.optionChosen += 1
+                    if (event.key == pg.K_0):
+                        if self.optionChosen == 1:
+                            crafting.makeArrow(self,self.player)
+                            print(self.player.arrows)
+            pg.display.update()
+
 
     def draw(self):
         self.screen.blit(BACKGROUND,(0,0))
@@ -210,6 +265,9 @@ class Game:
                     self.player.isShooting = False
                 if event.key == pg.K_0:
                     self.player.collect()
+
+
+
                 #if event.key == pg.K_i and self.usedInventory.isLoaded == False:
                     #self.usedInventory.isLoaded = True
                 #elif event.key == pg.K_i and self.usedInventory.isLoaded == True:
