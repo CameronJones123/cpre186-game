@@ -28,6 +28,11 @@ class Game:
         self.load_data()
         #self.usedInventory = inventory(pg)
         self.texts = []
+        # Load and play background music
+        # Sound source: http://ccmixter.org/files/Apoxode/59262
+        # License: https://creativecommons.org/licenses/by/3.0/
+        pg.mixer.music.load("Apoxode_-_Electric 1.mp3")
+        pg.mixer.music.play(loops=-1)
 
 
     def load_data(self):
