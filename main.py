@@ -79,6 +79,7 @@ class Game:
                     Wall(self, col, row)
                 elif tile == 'P':
                     self.player = Player(self, col, row)
+                    self.playerText = playerText(pg, self.player)
                 elif tile == "R":
                     self.Rabbit = rabbit(self,col,row)
 
@@ -98,6 +99,7 @@ class Game:
                     Wall(self, col, row)
                 if tile == 'P': #loads the player in the tile with a 'P'
                     self.player = Player(self,col, row)
+                    self.playerText = playerText(pg, self.player)
                 if tile == '2': #loads spaces with 2 with a passable wall
                     PassableWall(self, col, row)
                 if tile == 'S': #loads stone
@@ -245,6 +247,7 @@ class Game:
         for text in self.texts:
             self.screen.blit(text.textSurface,text.textSurfaceRect)
         self.screen.blit(self.scoreText.scoretext,self.scoreText.textRect)
+        self.screen.blit(self.playerText.healthText, self.playerText.healthTextRect)
         pg.display.flip()
 
     def events(self):
@@ -320,7 +323,7 @@ class Game:
             text.unload()
             if(text.remove == True):
                 self.texts.remove(text)
-
+        self.playerText.healthText = self.playerText.font.render("Health = " + str(self.player.health), 1, (255, 255, 255))
     def show_start_screen(self):
         pass
 

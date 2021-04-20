@@ -33,6 +33,7 @@ class playerText:
         self.font = pg.font.Font('freesansbold.ttf', 30)
         self.healthText = self.font.render("Health = " + str(player.health), 1, (255, 255, 255))
         self.healthTextRect = self.healthText.get_rect()
+        self.healthTextRect.y += 30
 class scoreText:
     def __init__(self, game):
         self.font = pg.font.Font('freesansbold.ttf', 30)
