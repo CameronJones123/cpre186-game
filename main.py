@@ -63,13 +63,13 @@ class Game:
                             Food(self, col, row)
                             item_qty[2] = item_qty[2] + 1
                     elif randNum == 3:
-                        if item_qty[2] < 5:
+                        if item_qty[3] < 5:
                             Gold(self, col, row)
-                            item_qty[2] = item_qty[3] + 1
+                            item_qty[3] = item_qty[3] + 1
                     elif randNum == 4:
-                        if item_qty[2] < 15:
+                        if item_qty[4] < 15:
                             Wood(self, col, row)
-                            item_qty[2] = item_qty[4] + 1
+                            item_qty[4] = item_qty[4] + 1
                     #elif randNum == 0:
                         #if item_qty[0] < 3:
                             #self.rabbit = rabbit(self, col, row)
@@ -90,6 +90,7 @@ class Game:
         self.rabbits = pg.sprite.Group()
         self.stone = pg.sprite.Group()
         self.food = pg.sprite.Group()
+        self.wood = pg.sprite.Group()
         for row, tiles in enumerate(self.map_data):
             for col, tile in enumerate(tiles):
                 if tile == '1': #loads a traditional, non-passable wall

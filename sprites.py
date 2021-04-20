@@ -24,6 +24,8 @@ class Player(pg.sprite.Sprite):
         self.stone = 0
         self.pickAxes = [pickAxe(game)]
         self.sythes = [sythe(game)]
+        self.axes = [axe(game)]
+        self.axe = 1
         self.pickAxe = 1
 
     def move(self, dx=0, dy=0):
@@ -67,6 +69,18 @@ class Player(pg.sprite.Sprite):
                     wheat.food -= wheatChange
                     self.sythes[0].swing()
                     wheat.collecting()
+                    newText = text(self.game,wheatChange,True,self)
+                    self.game.texts.append(newText)
+                    if(self.sythes[0].isBroken == True):
+                        self.pickAxes.pop(0)
+        for wood in self.game.wood:
+            if wood.x == self.x + 1 and wood.y == self.y or (what.x == self.x -1 and wheat.y == self.y) or (wheat.y == self.y + 1 and wheat.x == self.x) or (wheat.y == self.y - 1 and wheat.x == self.x):
+                if(len(self.axes) != 0):
+                    woodChange = random.randint(1,5)
+                    self.wood += woodChange
+                    wood.wood -= woodChange
+                    self.axes[0].swing()
+                    wood.collecting()
                     newText = text(self.game,wheatChange,True,self)
                     self.game.texts.append(newText)
                     if(self.sythes[0].isBroken == True):
@@ -236,6 +250,9 @@ class Wood(pg.sprite.Sprite):
         self.y = y
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
+    def collecting(self):
+        if self.wood <= 0:
+            self.kill()
 
 
 class rabbit(pg.sprite.Sprite):
@@ -334,6 +351,24 @@ class sythe(pg.sprite.Sprite):
         if(self.durability <= 0):
             print("broken")
             self.isBroken = True
+
+class axe(pg.sprite.Sprite):
+    def __init__(self, game):
+        super(axe, self).__init__()  # gives access to methods and properties
+        self.groups = game.all_sprites  # groups wood with all_sprites
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.image = pg.image.load("wood.png").convert_alpha()  # loads in our wood.png file
+        self.image.set_colorkey((255, 255, 255))  # sets the transparent's background color to white
+        self.rect = self.image.get_rect()  # says the image is in the rectangle
+        self.isBroken = False
+        self.durability = 100
+    def swing(self):
+        durabiltiyLost = random.randint(1,5)
+        self.durability -= durabiltiyLost
+        if(self.durability <= 0):
+            print("broken")
+            self.isBroken = True
+
 class bear(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.bears
