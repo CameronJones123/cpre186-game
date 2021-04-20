@@ -153,21 +153,26 @@ class Game:
         black = (0, 0, 0)
         green = (0, 255, 0)
         blue = (0, 0, 128)
+        white = (255, 255, 255)
         while self.inventoryRunning:
             X = 1024
             Y = 768
             display_surface = pg.display.set_mode((X, Y))
             pg.display.set_caption('Inventory')
             font = pg.font.Font('freesansbold.ttf', 32)
-            text = font.render("Stone: " + str(self.player.stone), True, green, blue)
-            text2 = font.render("Food: " + str(self.player.food), True, green, blue)
+            text = font.render("Stone: " + str(self.player.stone), True, white, black)
+            text2 = font.render("Food: " + str(self.player.food), True, white, black)
+            text3 = font.render("Wood: " + str(self.player.wood), True, white, black)
             textRect = text.get_rect()
             text2Rect = text2.get_rect()
+            text3Rect = text3.get_rect()
             textRect.center = (X // 2, Y // 2)
             text2Rect.center = (X // 2, Y // 2 - 30)
+            text3Rect.center = (X // 2, Y // 2 - 60)
             display_surface.fill(black)
             display_surface.blit(text, textRect)
             display_surface.blit(text2, text2Rect)
+            display_surface.blit(text3, text3Rect)
             font = pg.font.Font
             for event in pg.event.get():
                 if event.type == pg.KEYDOWN:
