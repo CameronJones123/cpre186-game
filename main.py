@@ -24,6 +24,7 @@ class Game:
         self.optionChosen = 0
         self.ChosenMenu = 0
         self.bearCount = 1
+        self.scoreText = scoreText(pg)
         pg.key.set_repeat(500, 100)
         self.load_data()
         #self.usedInventory = inventory(pg)
@@ -243,6 +244,7 @@ class Game:
             #self.screen.blit(self.usedInventory.image,self.usedInventory.rect)
         for text in self.texts:
             self.screen.blit(text.textSurface,text.textSurfaceRect)
+        self.screen.blit(self.scoreText.scoretext,self.scoreText.textRect)
         pg.display.flip()
 
     def events(self):
@@ -299,9 +301,12 @@ class Game:
         self.Rabbit.move(dx=Movex, px=self.player.x, py=self.player.y)
         self.Rabbit.move(dy=Movey, px=self.player.x, py=self.player.y)
         moveHorizOrVert = random.randint(0, 1)
-        for bear in self.bearList:
+        for bear in self.bears:
             if(bear.isDead == True):
                 bear.kill()
+                self.scoreText.score += 10
+                self.scoreText.scoretext = self.scoreText.font.render("Score = " + str(self.scoreText.score), 1,
+                                                                      (255, 255, 255))
             if(moveHorizOrVert == 1):
                 Movex = random.randint(-1, 1)
                 bear.move(dx=Movex, px=self.player.x, py=self.player.y)
