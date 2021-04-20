@@ -169,6 +169,8 @@ class Game:
                         self.isCrafting = True
                         self.crafting()
                         print("true")
+                    if event.key == pg.K_ESCAPE:
+                        self.quit()
 
 
             pg.display.update()
@@ -209,11 +211,19 @@ class Game:
                         self.inventoryRunning = False
                         self.isCrafting = False
                     if event.key == pg.K_DOWN and self.isCrafting == True:
-                        self.optionChosen += 1
+                        if(self.optionChosen < 1):#if additional crafting options are added increase
+                            self.optionChosen += 1
+                    if event.key == pg.K_UP and self.isCrafting == True:
+                        if(self.optionChosen > 0):
+                            self.optionChosen -= 1
+                    if event.key == pg.K_LEFT and self.isCrafting == True:
+                        self.isCrafting = False
                     if (event.key == pg.K_0):
                         if self.optionChosen == 1:
                             crafting.makeArrow(self,self.player)
                             print(self.player.arrows)
+                    if event.key == pg.K_ESCAPE:
+                        self.quit()
             pg.display.update()
 
 
