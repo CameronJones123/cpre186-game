@@ -19,6 +19,7 @@ class Player(pg.sprite.Sprite):
         self.wood = 0
         self.food = 0
         self.wheat = 0
+        self.arrow_sound = pg.mixer.Sound("arrow_launch_sound.wav")
         self.health = 1
         self.arrows = 0
         self.stone = 0
@@ -104,6 +105,7 @@ class Player(pg.sprite.Sprite):
         Bullet.dirY = y
         Bullet.add(self.groups)
         Bullet.add(self.game.bullets)
+        self.arrow_sound.play()
 
 
 class bullet(pg.sprite.Sprite):
@@ -379,6 +381,7 @@ class bear(pg.sprite.Sprite):
         self.coolDown = 300
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
+        self.collision_sound = pg.mixer.Sound("collision.wav")
         self.image.fill(RED)
         self.rect = self.image.get_rect()
         self.x = x
@@ -399,6 +402,7 @@ class bear(pg.sprite.Sprite):
                     if self.collide_with_Player(1,0):
                         healthLost = random.randint(1,5)
                         self.game.player.health -= healthLost
+                        self.game.player.health -= healthLost
                 if (px - self.x < 0 and self.y == py):
                     print("right")
                     if not self.collide_with_walls(-1, 0) and not self.collide_with_Player(-1,0):
@@ -406,6 +410,7 @@ class bear(pg.sprite.Sprite):
                         self.attackMove = True
                     if self.collide_with_Player(-1,0):
                         healthLost = random.randint(1,5)
+                        self.game.player.health -= healthLost
                         self.game.player.health -= healthLost
                 if (self.y - py < 0 and self.x == px):
                     print("down")
@@ -415,6 +420,7 @@ class bear(pg.sprite.Sprite):
                     if self.collide_with_Player(0,1):
                         healthLost = random.randint(1,5)
                         self.game.player.health -= healthLost
+                        self.game.player.health -= healthLost
                 if (py - self.y < 0 and self.x == px):
                     print("up")
                     if not self.collide_with_walls(0, -1) and not self.collide_with_Player(0,-1):
@@ -422,6 +428,7 @@ class bear(pg.sprite.Sprite):
                         self.attackMove = True
                     if self.collide_with_Player(0,-1):
                         healthLost = random.randint(1,5)
+                        self.game.player.health -= healthLost
                         self.game.player.health -= healthLost
                 if(self.attackMove == False):
                     if not self.collide_with_walls(dx, dy):
