@@ -16,7 +16,7 @@ class Player(pg.sprite.Sprite):
         self.x = x
         self.y = y
         self.isShooting = False
-        self.wood = 60
+        self.wood = 0
         self.food = 0
         self.wheat = 0
         self.health = 1
@@ -74,16 +74,16 @@ class Player(pg.sprite.Sprite):
                     if(self.sythes[0].isBroken == True):
                         self.pickAxes.pop(0)
         for wood in self.game.wood:
-            if wood.x == self.x + 1 and wood.y == self.y or (what.x == self.x -1 and wheat.y == self.y) or (wheat.y == self.y + 1 and wheat.x == self.x) or (wheat.y == self.y - 1 and wheat.x == self.x):
+            if wood.x == self.x + 1 and wood.y == self.y or (wood.x == self.x -1 and wood.y == self.y) or (wood.y == self.y + 1 and wood.x == self.x) or (wood.y == self.y - 1 and wood.x == self.x):
                 if(len(self.axes) != 0):
                     woodChange = random.randint(1,5)
                     self.wood += woodChange
                     wood.wood -= woodChange
                     self.axes[0].swing()
                     wood.collecting()
-                    newText = text(self.game,wheatChange,True,self)
+                    newText = text(self.game,woodChange,True,self)
                     self.game.texts.append(newText)
-                    if(self.sythes[0].isBroken == True):
+                    if(self.axes[0].isBroken == True):
                         self.pickAxes.pop(0)
 
 
@@ -242,7 +242,7 @@ class Gold(pg.sprite.Sprite):  # Creating Gold Ore for the game
 class Wood(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         super(Wood, self).__init__()  # gives access to methods and properties
-        self.groups = game.all_sprites  # groups wood with all_sprites
+        self.groups = game.all_sprites, game.wood  # groups wood with all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.image = pg.image.load("wood.png").convert_alpha()  # loads in our wood.png file
         self.image.set_colorkey((255, 255, 255))  # sets the transparent's background color to white
@@ -251,6 +251,7 @@ class Wood(pg.sprite.Sprite):
         self.y = y
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
+        self.wood = 10
     def collecting(self):
         if self.wood <= 0:
             self.kill()
