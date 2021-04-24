@@ -21,6 +21,7 @@ class Game:
         self.bears = pg.sprite.Group()
         self.isCrafting = False
         self.inventoryRunning = False
+        self.GameOver = False
         self.optionChosen = 0
         self.ChosenMenu = 0
         self.bearCount = 1
@@ -42,6 +43,20 @@ class Game:
         with open(path.join(game_folder, 'map.txt'), 'rt') as f:
             for line in f:
                 self.map_data.append(line)
+    def gameOver(self):
+        print("GAME OVER!!!")
+        self.screen.fill((0,0,0))
+        self.font = pg.font.Font('freesansbold.ttf', 75)
+        self.GameOverText = self.font.render("GAME OVER", 1, (255, 255, 255))
+        self.GameOverTextRect = self.GameOverText.get_rect()
+        self.screen.blit(self.GameOverText, self.GameOverTextRect)
+        pg.display.flip()
+        for event in pg.event.get():
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    self.quit()
+
+
 
     def itemSpawner(self):
         self.all_sprites = pg.sprite.Group()
@@ -153,26 +168,21 @@ class Game:
         black = (0, 0, 0)
         green = (0, 255, 0)
         blue = (0, 0, 128)
-        white = (255, 255, 255)
         while self.inventoryRunning:
             X = 1024
             Y = 768
             display_surface = pg.display.set_mode((X, Y))
             pg.display.set_caption('Inventory')
             font = pg.font.Font('freesansbold.ttf', 32)
-            text = font.render("Stone: " + str(self.player.stone), True, white, black)
-            text2 = font.render("Food: " + str(self.player.food), True, white, black)
-            text3 = font.render("Wood: " + str(self.player.wood), True, white, black)
+            text = font.render("Stone: " + str(self.player.stone), True, green, blue)
+            text2 = font.render("Food: " + str(self.player.food), True, green, blue)
             textRect = text.get_rect()
             text2Rect = text2.get_rect()
-            text3Rect = text3.get_rect()
             textRect.center = (X // 2, Y // 2)
             text2Rect.center = (X // 2, Y // 2 - 30)
-            text3Rect.center = (X // 2, Y // 2 - 60)
             display_surface.fill(black)
             display_surface.blit(text, textRect)
             display_surface.blit(text2, text2Rect)
-            display_surface.blit(text3, text3Rect)
             font = pg.font.Font
             for event in pg.event.get():
                 if event.type == pg.KEYDOWN:
@@ -242,93 +252,99 @@ class Game:
 
 
     def draw(self):
-        self.screen.blit(BACKGROUND,(0,0))
-        self.draw_grid()
-        self.all_sprites.draw(self.screen)
-        for entity in self.all_sprites:
-            self.screen.blit(entity.image, entity.rect)
-        #if self.usedInventory.isLoaded == True:
-            #self.screen.blit(self.usedInventory.image,self.usedInventory.rect)
-        for text in self.texts:
-            self.screen.blit(text.textSurface,text.textSurfaceRect)
-        self.screen.blit(self.scoreText.scoretext,self.scoreText.textRect)
-        self.screen.blit(self.playerText.healthText, self.playerText.healthTextRect)
-        pg.display.flip()
+        if (self.GameOver == False):
+            self.screen.blit(BACKGROUND,(0,0))
+            self.draw_grid()
+            self.all_sprites.draw(self.screen)
+            for entity in self.all_sprites:
+                self.screen.blit(entity.image, entity.rect)
+            #if self.usedInventory.isLoaded == True:
+                #self.screen.blit(self.usedInventory.image,self.usedInventory.rect)
+            for text in self.texts:
+                self.screen.blit(text.textSurface,text.textSurfaceRect)
+            self.screen.blit(self.scoreText.scoretext,self.scoreText.textRect)
+            self.screen.blit(self.playerText.healthText, self.playerText.healthTextRect)
+            pg.display.flip()
+        else:
+            self.gameOver()
 
     def events(self):
-        # catch all events here
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                self.quit()
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_ESCAPE:
+        if(self.GameOver == False):
+            # catch all events here
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
                     self.quit()
-                if event.key == pg.K_LEFT and self.player.isShooting == False:
-                    self.player.move(dx=-1)
-                if event.key == pg.K_RIGHT and self.player.isShooting == False:
-                    self.player.move(dx=1)
-                if event.key == pg.K_UP and self.player.isShooting == False:
-                    self.player.move(dy=-1)
-                if event.key == pg.K_DOWN and self.player.isShooting == False:
-                    self.player.move(dy=1)
-                if event.key == pg.K_SPACE:
-                    self.player.placeWall()
-                if event.key == pg.K_f and self.player.isShooting == False:
-                    self.player.isShooting = True
-                elif event.key == pg.K_f and self.player.isShooting == True:
-                    self.player.isShooting = False
-                if event.key == pg.K_UP and self.player.isShooting == True:
-                    self.player.shoot(0, -1)
-                    self.player.isShooting = False
-                if event.key == pg.K_DOWN and self.player.isShooting == True:
-                    self.player.shoot(0, 1)
-                    self.player.isShooting = False
-                if event.key == pg.K_RIGHT and self.player.isShooting == True:
-                    self.player.shoot(1, 0)
-                    self.player.isShooting = False
-                if event.key == pg.K_LEFT and self.player.isShooting == True:
-                    self.player.shoot(-1, 0)
-                    self.player.isShooting = False
-                if event.key == pg.K_0:
-                    self.player.collect()
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_ESCAPE:
+                        self.quit()
+                    if event.key == pg.K_LEFT and self.player.isShooting == False:
+                        self.player.move(dx=-1)
+                    if event.key == pg.K_RIGHT and self.player.isShooting == False:
+                        self.player.move(dx=1)
+                    if event.key == pg.K_UP and self.player.isShooting == False:
+                        self.player.move(dy=-1)
+                    if event.key == pg.K_DOWN and self.player.isShooting == False:
+                        self.player.move(dy=1)
+                    if event.key == pg.K_SPACE:
+                        self.player.placeWall()
+                    if event.key == pg.K_f and self.player.isShooting == False:
+                        self.player.isShooting = True
+                    elif event.key == pg.K_f and self.player.isShooting == True:
+                        self.player.isShooting = False
+                    if event.key == pg.K_UP and self.player.isShooting == True:
+                        self.player.shoot(0, -1)
+                        self.player.isShooting = False
+                    if event.key == pg.K_DOWN and self.player.isShooting == True:
+                        self.player.shoot(0, 1)
+                        self.player.isShooting = False
+                    if event.key == pg.K_RIGHT and self.player.isShooting == True:
+                        self.player.shoot(1, 0)
+                        self.player.isShooting = False
+                    if event.key == pg.K_LEFT and self.player.isShooting == True:
+                        self.player.shoot(-1, 0)
+                        self.player.isShooting = False
+                    if event.key == pg.K_0:
+                        self.player.collect()
 
 
 
-                #if event.key == pg.K_i and self.usedInventory.isLoaded == False:
-                    #self.usedInventory.isLoaded = True
-                #elif event.key == pg.K_i and self.usedInventory.isLoaded == True:
-                    #self.usedInventory.isLoaded = False
-                if event.key == pg.K_TAB:
-                    self.inventory()
+                    #if event.key == pg.K_i and self.usedInventory.isLoaded == False:
+                        #self.usedInventory.isLoaded = True
+                    #elif event.key == pg.K_i and self.usedInventory.isLoaded == True:
+                        #self.usedInventory.isLoaded = False
+                    if event.key == pg.K_TAB:
+                        self.inventory()
 
 
-        Movex = random.randint(-1,1)
-        Movey = random.randint(-1,1)
-        self.spawn()
+            Movex = random.randint(-1,1)
+            Movey = random.randint(-1,1)
+            self.spawn()
 
-        self.Rabbit.move(dx=Movex, px=self.player.x, py=self.player.y)
-        self.Rabbit.move(dy=Movey, px=self.player.x, py=self.player.y)
-        moveHorizOrVert = random.randint(0, 1)
-        for bear in self.bears:
-            if(bear.isDead == True):
-                bear.kill()
-                self.scoreText.score += 10
-                self.scoreText.scoretext = self.scoreText.font.render("Score = " + str(self.scoreText.score), 1,
-                                                                      (255, 255, 255))
-            if(moveHorizOrVert == 1):
-                Movex = random.randint(-1, 1)
-                bear.move(dx=Movex, px=self.player.x, py=self.player.y)
-            else:
-                Movey = random.randint(-1, 1)
-                bear.move(dy=Movey, px=self.player.x, py=self.player.y)
+            self.Rabbit.move(dx=Movex, px=self.player.x, py=self.player.y)
+            self.Rabbit.move(dy=Movey, px=self.player.x, py=self.player.y)
+            moveHorizOrVert = random.randint(0, 1)
+            for bear in self.bears:
+                if(bear.isDead == True):
+                    bear.kill()
+                    self.scoreText.score += 10
+                    self.scoreText.scoretext = self.scoreText.font.render("Score = " + str(self.scoreText.score), 1,
+                                                                          (255, 255, 255))
+                if(moveHorizOrVert == 1):
+                    Movex = random.randint(-1, 1)
+                    bear.move(dx=Movex, px=self.player.x, py=self.player.y)
+                else:
+                    Movey = random.randint(-1, 1)
+                    bear.move(dy=Movey, px=self.player.x, py=self.player.y)
 
-        for bullet in self.bullets:
-            bullet.move()
-        for text in self.texts:
-            text.unload()
-            if(text.remove == True):
-                self.texts.remove(text)
-        self.playerText.healthText = self.playerText.font.render("Health = " + str(self.player.health), 1, (255, 255, 255))
+            for bullet in self.bullets:
+                bullet.move()
+            for text in self.texts:
+                text.unload()
+                if(text.remove == True):
+                    self.texts.remove(text)
+            if(self.player.health <= 0):
+                self.GameOver = True
+            self.playerText.healthText = self.playerText.font.render("Health = " + str(self.player.health), 1, (255, 255, 255))
     def show_start_screen(self):
         pass
 
