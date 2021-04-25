@@ -10,6 +10,7 @@ from settings import *
 from sprites import *
 import random
 from Inventory import *
+from Map import *
 
 class Game:
     def __init__(self):
@@ -39,6 +40,7 @@ class Game:
 
     def load_data(self):
         game_folder = path.dirname(__file__)
+        self.map = Map(path.join(game_folder, 'map2.txt'))
         self.map_data = []
         with open(path.join(game_folder, 'map.txt'), 'rt') as f:
             for line in f:
@@ -66,7 +68,7 @@ class Game:
         item_list = ['R', 'S', 'F', 'G', 'W']
         #item_qty is a list containing the quantities of each item
         item_qty = [0, 0, 0, 0, 0]
-        for row, tiles in enumerate(self.map_data):
+        for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == '.':
                     randNum = random.randint(0,100)
@@ -95,6 +97,7 @@ class Game:
                 elif tile == 'P':
                     self.player = Player(self, col, row)
                     self.playerText = playerText(pg, self.player)
+                    self.camera = Camera(self.map.width, self.map.height)
                 elif tile == "R":
                     self.Rabbit = rabbit(self,col,row)
 
@@ -108,7 +111,7 @@ class Game:
         self.stone = pg.sprite.Group()
         self.food = pg.sprite.Group()
         self.wood = pg.sprite.Group()
-        for row, tiles in enumerate(self.map_data):
+        for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == '1': #loads a traditional, non-passable wall
                     Wall(self, col, row)
@@ -155,6 +158,7 @@ class Game:
     def update(self):
         # update portion of the game loop
         self.all_sprites.update()
+        self.camera.update(self.player)
 
     def draw_grid(self):
         for x in range(0, WIDTH, TILESIZE):
@@ -255,9 +259,9 @@ class Game:
         if (self.GameOver == False):
             self.screen.blit(BACKGROUND,(0,0))
             self.draw_grid()
-            self.all_sprites.draw(self.screen)
-            for entity in self.all_sprites:
-                self.screen.blit(entity.image, entity.rect)
+            #self.all_sprites.draw(self.screen)
+            for sprite in self.all_sprites:
+                self.screen.blit(sprite.image, self.camera.apply(sprite))
             #if self.usedInventory.isLoaded == True:
                 #self.screen.blit(self.usedInventory.image,self.usedInventory.rect)
             for text in self.texts:
