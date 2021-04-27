@@ -42,7 +42,7 @@ class Game:
         game_folder = path.dirname(__file__)
         self.map = Map(path.join(game_folder, 'map2.txt'))
         self.map_data = []
-        with open(path.join(game_folder, 'map.txt'), 'rt') as f:
+        with open(path.join(game_folder, 'map2.txt'), 'rt') as f:
             for line in f:
                 self.map_data.append(line)
     def gameOver(self):
@@ -111,6 +111,7 @@ class Game:
         self.stone = pg.sprite.Group()
         self.food = pg.sprite.Group()
         self.wood = pg.sprite.Group()
+        self.gold = pg.sprite.Group()
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == '1': #loads a traditional, non-passable wall
@@ -180,13 +181,17 @@ class Game:
             font = pg.font.Font('freesansbold.ttf', 32)
             text = font.render("Stone: " + str(self.player.stone), True, green, blue)
             text2 = font.render("Food: " + str(self.player.food), True, green, blue)
+            text3 = font.render("Gold: " + str(self.player.gold), True, green, blue)
             textRect = text.get_rect()
             text2Rect = text2.get_rect()
+            text3Rect = text3.get_rect()
             textRect.center = (X // 2, Y // 2)
             text2Rect.center = (X // 2, Y // 2 - 30)
+            text3Rect.center = (X // 2, Y // 2 - 60)
             display_surface.fill(black)
             display_surface.blit(text, textRect)
             display_surface.blit(text2, text2Rect)
+            display_surface.blit(text3, text3Rect)
             font = pg.font.Font
             for event in pg.event.get():
                 if event.type == pg.KEYDOWN:

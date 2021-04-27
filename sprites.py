@@ -18,6 +18,7 @@ class Player(pg.sprite.Sprite):
         self.isShooting = False
         self.wood = 0
         self.food = 0
+        self.gold = 0
         self.wheat = 0
         self.arrow_sound = pg.mixer.Sound("arrow_launch_sound.wav")
         self.health = 1
@@ -85,6 +86,18 @@ class Player(pg.sprite.Sprite):
                     newText = text(self.game,woodChange,True,self)
                     self.game.texts.append(newText)
                     if(self.axes[0].isBroken == True):
+                        self.pickAxes.pop(0)
+        for gold in self.game.gold:
+           if gold.x == self.x +1 and gold.y == self.y or (gold.x == self.x -1 and gold.y == self.y) or (gold.y == self.y+1 and gold.x == self.x) or (gold.y == self.y-1 and gold.x == self.x):
+                if(len(self.pickAxes) != 0):
+                    gold.goldChange = random.randint(1,5)
+                    self.gold += gold.goldChange
+                    gold.gold -= gold.goldChange
+                    self.pickAxes[0].swing()
+                    gold.mining()
+                    newText = text(self.game,gold.goldChange,True,self)
+                    self.game.texts.append(newText)
+                    if(self.pickAxes[0].isBroken == True):
                         self.pickAxes.pop(0)
 
 
@@ -230,15 +243,20 @@ class Food(pg.sprite.Sprite):  # Creating Food for the game
 class Gold(pg.sprite.Sprite):  # Creating Gold Ore for the game
     def __init__(self, game, x, y):
         super(Gold, self).__init__()  # gives access to methods and properties
-        self.groups = game.all_sprites  # groups gold with all_sprites
+        self.groups = game.all_sprites, game.gold # groups gold with all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.image = pg.image.load("gold_ore.png").convert_alpha()  # loads in our gold.png file
         self.image.set_colorkey((255, 255, 255))  # sets the transparent's background color to white
+        self.goldChange = 0
+        self.gold = 10
         self.rect = self.image.get_rect()  # says the image is in the rectangle
         self.x = x
         self.y = y
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
+    def mining(self):
+        if self.gold <= 0:
+            self.kill()
 
 
 class Wood(pg.sprite.Sprite):
@@ -327,7 +345,7 @@ class pickAxe(pg.sprite.Sprite):
         super(pickAxe, self).__init__()  # gives access to methods and properties
         self.groups = game.all_sprites  # groups wood with all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
-        self.image = pg.image.load("wood.png").convert_alpha()  # loads in our wood.png file
+        self.image = pg.image.load("pickaxe.png").convert_alpha()  # loads in our wood.png file
         self.image.set_colorkey((255, 255, 255))  # sets the transparent's background color to white
         self.rect = self.image.get_rect()  # says the image is in the rectangle
         self.isBroken = False
@@ -344,7 +362,7 @@ class sythe(pg.sprite.Sprite):
         super(sythe, self).__init__()  # gives access to methods and properties
         self.groups = game.all_sprites  # groups wood with all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
-        self.image = pg.image.load("wood.png").convert_alpha()  # loads in our wood.png file
+        self.image = pg.image.load("scythe.png").convert_alpha()  # loads in our wood.png file
         self.image.set_colorkey((255, 255, 255))  # sets the transparent's background color to white
         self.rect = self.image.get_rect()  # says the image is in the rectangle
         self.isBroken = False
@@ -382,7 +400,7 @@ class bear(pg.sprite.Sprite):
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
         self.collision_sound = pg.mixer.Sound("collision.wav")
-        self.image.fill(RED)
+        bear.image = pg.image.load("bear.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
