@@ -132,13 +132,13 @@ class Game:
     def spawn(self):
         now = pg.time.get_ticks()
         count = range(self.bearCount)
-        initx = 5
-        inity = 6
-        if (now % 400 == 0):
+        initx = 61           #init bear spawn location
+        inity = 20
+        if (now % 900 == 0):
             for New_bear in count:
                 self.Bear = bear(self, initx,inity)
                 self.bearList.append(self.Bear)
-                initx += 1
+                initx += 1         #new bear spawn location based off current bears
                 inity -= 1
             self.bearCount += 1
 
