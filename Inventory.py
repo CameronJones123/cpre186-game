@@ -34,6 +34,14 @@ class playerText:
         self.healthText = self.font.render("Health = " + str(player.health), 1, (255, 255, 255))
         self.healthTextRect = self.healthText.get_rect()
         self.healthTextRect.y += 30
+class WaveCount:
+    def __init__(self, game):
+        self.game = game
+        self.font = pg.font.Font('freesansbold.ttf', 30)
+        self.wave = 0
+        self.waveText = self.font.render("Wave number "+ str(self.wave), 1, (255, 255, 255))
+        self.waveTextRect = self.waveText.get_rect()
+        self.waveTextRect.y += 60
 class scoreText:
     def __init__(self, game):
         self.font = pg.font.Font('freesansbold.ttf', 30)

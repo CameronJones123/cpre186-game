@@ -27,6 +27,7 @@ class Game:
         self.ChosenMenu = 0
         self.bearCount = 1
         self.scoreText = scoreText(pg)
+        self.WaveText = WaveCount(self)
         pg.key.set_repeat(500, 100)
         self.load_data()
         #self.usedInventory = inventory(pg)
@@ -135,6 +136,9 @@ class Game:
         initx = 61           #init bear spawn location
         inity = 20
         if (now % 900 == 0):
+            self.WaveText.wave += 1
+            self.WaveText.waveText = self.WaveText.font.render("Wave number " + str(self.WaveText.wave), 1,
+                                                               (255, 255, 255))
             for New_bear in count:
                 self.Bear = bear(self, initx,inity)
                 self.bearList.append(self.Bear)
@@ -194,6 +198,8 @@ class Game:
             display_surface.blit(text3, text3Rect)
             font = pg.font.Font
             for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.quit()
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_TAB:
                         self.inventoryRunning = False
@@ -240,6 +246,8 @@ class Game:
             font = pg.font.Font
             for event in pg.event.get():
                 if event.type == pg.KEYDOWN:
+                    if event.type == pg.QUIT:
+                        self.quit()
                     if event.key == pg.K_TAB:
                         self.inventoryRunning = False
                         self.isCrafting = False
@@ -273,6 +281,7 @@ class Game:
                 self.screen.blit(text.textSurface,text.textSurfaceRect)
             self.screen.blit(self.scoreText.scoretext,self.scoreText.textRect)
             self.screen.blit(self.playerText.healthText, self.playerText.healthTextRect)
+            self.screen.blit(self.WaveText.waveText, self.WaveText.waveTextRect)
             pg.display.flip()
         else:
             self.gameOver()
@@ -334,8 +343,8 @@ class Game:
             moveHorizOrVert = random.randint(0, 1)
             for bear in self.bears:
                 if(bear.isDead == True):
-                    bear.kill()
-                    self.scoreText.score += 10
+                    bear.isDeadFunction()
+                    self.scoreText.score = self.player.kills * 10
                     self.scoreText.scoretext = self.scoreText.font.render("Score = " + str(self.scoreText.score), 1,
                                                                           (255, 255, 255))
                 if(moveHorizOrVert == 1):

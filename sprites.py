@@ -20,6 +20,7 @@ class Player(pg.sprite.Sprite):
         self.food = 0
         self.gold = 0
         self.wheat = 0
+        self.kills = 0
         self.arrow_sound = pg.mixer.Sound("arrow_launch_sound.wav")
         self.health = 1
         self.arrows = 0
@@ -112,13 +113,26 @@ class Player(pg.sprite.Sprite):
         self.groups.add(new_wall)
         self.group1.add(new_wall)
 
-    def shoot(self,x,y):
-        Bullet = bullet(self.game, self.x, self.y)
-        Bullet.dirx = x
-        Bullet.dirY = y
-        Bullet.add(self.groups)
-        Bullet.add(self.game.bullets)
-        self.arrow_sound.play()
+    def shoot(self, x, y):
+        if (self.arrows > 0):
+            Bullet = bullet(self.game, self.x, self.y, self)
+            Bullet.dirx = x
+            Bullet.dirY = y
+            Bullet.add(self.groups)
+            Bullet.add(self.game.bullets)
+            self.arrow_sound.play()
+        else:
+
+            self.font = pg.font.Font('freesansbold.ttf', 30)
+            self.last = pg.time.get_ticks()
+            self.ArrowText = self.font.render("No arrows!", 1, (255, 255, 255))
+            self.ArrowTextRect = self.ArrowText.get_rect()
+            self.ArrowTextRect.x = self.x + 390
+            self.ArrowTextRect.y = self.y + 250
+            self.game.screen.blit(self.ArrowText, self.ArrowTextRect)
+            while (self.last % 200 != 0):
+                self.last = pg.time.get_ticks()
+                pg.display.update()
 
 
 class bullet(pg.sprite.Sprite):
@@ -153,11 +167,13 @@ class bullet(pg.sprite.Sprite):
                 self.image.get_rect()
                 return True
         return False
+
     def collide_with_bear(self, dx=0, dy=0):
         for bear in self.game.bears:
             if bear.x == self.x + dx and bear.y == self.y + dy:
                 bear.isDead = True
                 bear.image.fill(WHITE)
+                self.player.kills += 1
                 return True
     def move(self):
         print(self.x)
@@ -405,6 +421,8 @@ class bear(pg.sprite.Sprite):
         self.x = x
         self.y = y
         self.isDead = False
+    def isDeadFunction(self):
+        self.image = self.image = pg.image.load("bear_dead.png").convert_alpha()
 
 
     def move(self, dx=0, dy=0, px=0, py=0):
