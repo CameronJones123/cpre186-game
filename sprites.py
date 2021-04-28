@@ -416,7 +416,7 @@ class bear(pg.sprite.Sprite):
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
         self.collision_sound = pg.mixer.Sound("collision.wav")
-        bear.image = pg.image.load("bear.png").convert_alpha()
+        self.image = pg.image.load("bear.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
