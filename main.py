@@ -1,7 +1,7 @@
 #Group 1's city builder main program.
 #Last updated 03/09/21
 #Members Names: Isaac Vrba, Cameron Jones, Dan.
-
+#Camera movement and grid loading/Movement from https://github.com/kidscancode/pygame_tutorials/tree/master/tilemap/part%2004
 
 import pygame as pg #changes pygame to pg so we don't have to type 'pygames' out each time
 import sys
