@@ -72,7 +72,7 @@ class Game:
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == '.':
-                    randNum = random.randint(0,100)
+                    randNum = random.randint(0,200)
                     if randNum == 1:
                         if item_qty[1] < 10:
                             Stone(self, col, row)
