@@ -163,6 +163,9 @@ class Game:
     def update(self):
         # update portion of the game loop
         self.all_sprites.update()
+        for text in self.texts:
+            text.textSurfaceRect.x = 250
+            text.textSurfaceRect.y = 15
         self.camera.update(self.player)
 
     def draw_grid(self):
@@ -277,6 +280,7 @@ class Game:
                 self.screen.blit(sprite.image, self.camera.apply(sprite))
             #if self.usedInventory.isLoaded == True:
                 #self.screen.blit(self.usedInventory.image,self.usedInventory.rect)
+            pg.draw.rect(self.screen, (0, 0, 0), pg.Rect(250, 0, 500, 60))
             for text in self.texts:
                 self.screen.blit(text.textSurface,text.textSurfaceRect)
             self.screen.blit(self.scoreText.scoretext,self.scoreText.textRect)

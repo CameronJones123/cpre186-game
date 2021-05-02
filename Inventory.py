@@ -14,7 +14,7 @@ class inventory(pg.sprite.Sprite):
 class text:
     def __init__(self, game,userText,isMiningText,player):
         self.game = game
-        self.font = pg.font.Font('freesansbold.ttf', 30)
+        self.font = pg.font.Font('freesansbold.ttf', 50)
         self.healthText = self.font.render("Health = " + str(player.health), 1, (255, 255, 255))
         self.textSurface = self.font.render(str(userText), True, WHITE)
         self.textSurfaceRect = self.textSurface.get_rect()
@@ -23,10 +23,17 @@ class text:
         self.remove = False
         self.textSurfaceRect.x = player.rect.x+10
         self.textSurfaceRect.y = player.rect.y-40
+
     def unload(self):
         now = pg.time.get_ticks()
         if(self.isMiningText == True and now % 100 == 0):
             self.remove = True
+class scoreText:
+    def __init__(self, game):
+        self.font = pg.font.Font('freesansbold.ttf', 30)
+        self.score = 0
+        self.scoretext = self.font.render("Score = " + str(self.score), 1, (0, 0, 0))
+        self.textRect = self.scoretext.get_rect()
 class playerText:
     def __init__(self, game,player):
         self.game = game
@@ -42,12 +49,6 @@ class WaveCount:
         self.waveText = self.font.render("Wave number "+ str(self.wave), 1, (255, 255, 255))
         self.waveTextRect = self.waveText.get_rect()
         self.waveTextRect.y += 60
-class scoreText:
-    def __init__(self, game):
-        self.font = pg.font.Font('freesansbold.ttf', 30)
-        self.score = 0
-        self.scoretext = self.font.render("Score = " + str(self.score), 1, (0, 0, 0))
-        self.textRect = self.scoretext.get_rect()
 class crafting():
     def __init__(self, game):
         self.game = game
@@ -59,7 +60,7 @@ class crafting():
         else:
             print("no pickaxe created")
     def makeArrow(self,player):
-        if (player.wood >= 50 and player.stone >= 10):
+        if (player.wood >= 1 and player.stone >= 1):
             player.arrows += 1
             player.wood -= 50
             player.stone -= 10

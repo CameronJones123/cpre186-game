@@ -23,7 +23,7 @@ class Player(pg.sprite.Sprite):
         self.kills = 0
         self.arrow_sound = pg.mixer.Sound("arrow_launch_sound.wav")
         self.health = 1
-        self.arrows = 0
+        self.arrows = 1
         self.stone = 0
         self.pickAxes = [pickAxe(game)]
         self.sythes = [sythe(game)]
@@ -60,7 +60,9 @@ class Player(pg.sprite.Sprite):
                     stone.stone -= stoneChange
                     self.pickAxes[0].swing()
                     stone.mining()
-                    newText = text(self.game,stoneChange,True,self)
+                    newText = text(self.game,(str)(stoneChange) +": Stone added",True,self)
+                    for text1 in self.game.texts:
+                        self.game.texts.remove(text1)
                     self.game.texts.append(newText)
                     if(self.pickAxes[0].isBroken == True):
                         self.pickAxes.pop(0)
@@ -72,7 +74,9 @@ class Player(pg.sprite.Sprite):
                     wheat.food -= wheatChange
                     self.sythes[0].swing()
                     wheat.collecting()
-                    newText = text(self.game,wheatChange,True,self)
+                    newText = text(self.game,(str)(wheatChange)+": Food Added",True,self)
+                    for text1 in self.game.texts:
+                        self.game.texts.remove(text1)
                     self.game.texts.append(newText)
                     if(self.sythes[0].isBroken == True):
                         self.pickAxes.pop(0)
@@ -84,7 +88,9 @@ class Player(pg.sprite.Sprite):
                     wood.wood -= woodChange
                     self.axes[0].swing()
                     wood.collecting()
-                    newText = text(self.game,woodChange,True,self)
+                    newText = text(self.game,(str)(woodChange)+": Wood Added",True,self)
+                    for text1 in self.game.texts:
+                        self.game.texts.remove(text1)
                     self.game.texts.append(newText)
                     if(self.axes[0].isBroken == True):
                         self.pickAxes.pop(0)
@@ -96,7 +102,9 @@ class Player(pg.sprite.Sprite):
                     gold.gold -= gold.goldChange
                     self.pickAxes[0].swing()
                     gold.mining()
-                    newText = text(self.game,gold.goldChange,True,self)
+                    newText = text(self.game,(str)(gold.goldChange)+": Gold Added",True,self)
+                    for text1 in self.game.texts:
+                        self.game.texts.remove(text1)
                     self.game.texts.append(newText)
                     if(self.pickAxes[0].isBroken == True):
                         self.pickAxes.pop(0)
@@ -121,22 +129,23 @@ class Player(pg.sprite.Sprite):
             Bullet.add(self.groups)
             Bullet.add(self.game.bullets)
             self.arrow_sound.play()
+            self.arrows -= 1
         else:
 
             self.font = pg.font.Font('freesansbold.ttf', 30)
             self.last = pg.time.get_ticks()
             self.ArrowText = self.font.render("No arrows!", 1, (255, 255, 255))
-            self.ArrowTextRect = self.ArrowText.get_rect()
-            self.ArrowTextRect.x = self.x + 390
-            self.ArrowTextRect.y = self.y + 250
-            self.game.screen.blit(self.ArrowText, self.ArrowTextRect)
+            self.arrowText1 = text(self.game, "No arrows!", True, self)
+            for text1 in self.game.texts:
+                self.game.texts.remove(text1)
+            self.game.texts.append(self.arrowText1)
             while (self.last % 200 != 0):
                 self.last = pg.time.get_ticks()
                 pg.display.update()
 
 
 class bullet(pg.sprite.Sprite):
-    def __init__(self, game, x, y):
+    def __init__(self, game, x, y,player):
         self.groups = game.all_sprites
         self.group1 = game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
@@ -305,7 +314,7 @@ class rabbit(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
-        self.isDead = True
+        self.isDead = False
 
     def move(self, dx=0, dy=0, px=0, py=0):
 
